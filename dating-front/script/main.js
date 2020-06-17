@@ -3,13 +3,27 @@ const Video = Twilio.Video;
 
 $(document).ready(() => {
   console.log("ready!");
+
+  const url = location.href;
+  console.log('Url', url);
+
+  if (url == 'https://savethedate-91944.web.app/room/') return;
+
+  const room = url.split('https://savethedate-91944.web.app/room/').pop();
+  if (room == '') return;
+
+  console.log(room);
+  
+  getAccessToken(room);
+
 });
 
-const getAccessToken = () => {
+const getAccessToken = (room) => {
+  const name = room ?? new Date().getTime();
   console.log("Getting Access Token");
 
   const http = new XMLHttpRequest();
-  const url = "https://us-central1-savethedate-91944.cloudfunctions.net/app";
+  const url = "https://us-central1-savethedate-91944.cloudfunctions.net/app?room=" + name;
 
   http.open("GET", url);
   http.send();
@@ -17,17 +31,19 @@ const getAccessToken = () => {
   http.onreadystatechange = (e, ev) => {
     if (http.readyState === XMLHttpRequest.DONE) {
       console.log(http.response);
-      startConference(http.response);
+      startConference(name, http.response);
     }
   };
 };
 
-const startConference = token => {
+const startConference = (name, token) => {
   Video.connect(
     token,
-    { name: "TestRoom" }
+    { name }
   ).then(room => {
     console.log('Connected to Room', room);
+
+    generateUrl(name);
 
     Video.createLocalVideoTrack().then(track => {
       const localMediaContainer = document.getElementById('local-media');
@@ -70,3 +86,8 @@ const startConference = token => {
     track.detach().forEach(element => element.remove());
   }
 };
+
+function generateUrl(name) {
+  const url = 'https://savethedate-91944.web.app/room/' + name;
+  alert(url);
+}

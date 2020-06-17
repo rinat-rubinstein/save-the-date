@@ -24,7 +24,7 @@ const getAccessToken = (req: any, res: any) => {
 
     // Grant access to Video
     const grant = new VideoGrant();
-    grant.room = 'TestRoom';
+    grant.room = req.query.room ?? Math.random().toString();
     accessToken.addGrant(grant);
 
     // Serialize the token as a JWT
