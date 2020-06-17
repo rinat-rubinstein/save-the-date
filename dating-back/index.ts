@@ -1,5 +1,5 @@
 import * as express from 'express';
-import * as handlers from './handlers';
+import * as handlers from '../functions/src/handlers';
 import * as body_parser from 'body-parser';
 import * as cors from 'cors';
 

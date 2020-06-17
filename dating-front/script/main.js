@@ -9,7 +9,7 @@ const getAccessToken = () => {
   console.log("Getting Access Token");
 
   const http = new XMLHttpRequest();
-  const url = "http://127.0.0.1:3000";
+  const url = "https://us-central1-savethedate-91944.cloudfunctions.net/app";
 
   http.open("GET", url);
   http.send();
@@ -27,7 +27,12 @@ const startConference = token => {
     token,
     { name: "TestRoom" }
   ).then(room => {
-    console.log('Connected to Room "%s"', room.name);
+    console.log('Connected to Room', room);
+
+    Video.createLocalVideoTrack().then(track => {
+      const localMediaContainer = document.getElementById('local-media');
+      localMediaContainer.appendChild(track.attach());
+    });
 
     room.participants.forEach(participantConnected);
     room.on("participantConnected", participantConnected);
@@ -37,22 +42,19 @@ const startConference = token => {
   });
 
   function participantConnected(participant) {
-    console.log('Participant "%s" connected', participant.identity);
-
-    const div = document.createElement("div");
-    div.id = participant.sid;
-    div.innerText = participant.identity;
-
-    participant.on("trackSubscribed", track => trackSubscribed(div, track));
-    participant.on("trackUnsubscribed", trackUnsubscribed);
+    console.log(`Participant "${participant.identity}" connected`);
 
     participant.tracks.forEach(publication => {
       if (publication.isSubscribed) {
-        trackSubscribed(div, publication.track);
+        const track = publication.track;
+        document.getElementById('remote-media-div').appendChild(track.attach());
       }
     });
-
-    document.body.appendChild(div);
+  
+    participant.on('trackSubscribed', track => {
+      document.getElementById('remote-media-div').appendChild(track.attach());
+    });
+  
   }
 
   function participantDisconnected(participant) {

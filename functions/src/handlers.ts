@@ -1,6 +1,6 @@
 
 
-const getAccessToken = (req, res) => {
+const getAccessToken = (req: any, res: any) => {
 
     console.log('Getting Access Token')
 
@@ -20,17 +20,17 @@ const getAccessToken = (req, res) => {
     );
 
     // Set the Identity of this token
-    accessToken.identity = 'dudiTest';
+    accessToken.identity = req.body.identity ?? Math.random().toString();
 
     // Grant access to Video
-    var grant = new VideoGrant();
+    const grant = new VideoGrant();
     grant.room = 'TestRoom';
     accessToken.addGrant(grant);
 
     // Serialize the token as a JWT
     var jwt = accessToken.toJwt();
     console.log(jwt);
-    
+
     res.send(jwt);
 }
 
