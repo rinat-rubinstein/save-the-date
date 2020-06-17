@@ -1,0 +1,18 @@
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+button {
+    width: 200px;
+    height: 80px;
+    background-color: #FFCC00;
+    color: black;
+    box-shadow: none;
+    border: none;
+    border-radius: 3px;
+    letter-spacing: 1.2px;
+}
