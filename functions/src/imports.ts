@@ -6,6 +6,6 @@ import * as admin from 'firebase-admin';
 const app: express.Application = express();
 
 admin.initializeApp();
+const c = cors({ origin: '*' });
 
-
-export { app, cors, functions, admin };
+export { app, c, functions, admin };

@@ -10,7 +10,7 @@ class MeetingController {
   _herPhone;
 
   constructor(videoInstance) {
-    Video = videoInstance;
+    this.Video = videoInstance;
   }
 
   setParticipantsData(hisName, hisPhone, herName, herPhone) {
@@ -22,40 +22,44 @@ class MeetingController {
 
   startMeeting(roomName, token) {
     this._roomName = roomName;
-    return Video.connect(
+    return this.Video.connect(
       token,
       { name: roomName }
-    ).then(room => {
-      this._room = room;
-      console.log('Connected to Room', room);
+    )
+      .then(room => {
+        this._room = room;
+        console.log("Connected to Room", room);
 
-      generateUrl(roomName);
+        generateUrl(roomName);
 
-      Video.createLocalVideoTrack().then(track => {
-        const localMediaContainer = document.getElementById('local-media');
-        localMediaContainer.appendChild(track.attach());
+        this.Video.createLocalVideoTrack().then(track => {
+          const localMediaContainer = document.getElementById("local-media");
+          localMediaContainer.appendChild(track.attach());
+        });
 
+        room.participants.forEach(this.participantConnected);
+        room.on("participantConnected", this.participantConnected);
+
+        room.on("participantDisconnected", this.participantDisconnected);
+        room.once("disconnected", error => room.participants.forEach(this.participantDisconnected));
+      })
+      .catch(e => {
+        console.error("Error startMeeting", e);
       });
-
-      room.participants.forEach(this.participantConnected);
-      room.on("participantConnected", this.participantConnected);
-
-      room.on("participantDisconnected", this.participantDisconnected);
-      room.once("disconnected", error => room.participants.forEach(this.participantDisconnected));
-    }).catch(e => {
-      console.error('Error startMeeting', e);
-    })
-
   }
 
-  endMeeting() { }
+  endMeeting() {}
 
   mute() {
-    this._room.localParticipant.audioTracks.forEach((publication) => { publication.track.disable(); });
+    this._room.localParticipant.audioTracks.forEach(publication => {
+      publication.track.disable();
+    });
   }
 
   unmute() {
-    this._room.localParticipant.audioTracks.forEach((publication) => { publication.track.enable(); });
+    this._room.localParticipant.audioTracks.forEach(publication => {
+      publication.track.enable();
+    });
   }
 
   participantConnected(participant) {
@@ -64,14 +68,13 @@ class MeetingController {
     participant.tracks.forEach(publication => {
       if (publication.isSubscribed) {
         const track = publication.track;
-        document.getElementById('remote-media-div').appendChild(track.attach());
+        document.getElementById("remote-media-div").appendChild(track.attach());
       }
     });
 
-    participant.on('trackSubscribed', track => {
-      document.getElementById('remote-media-div').appendChild(track.attach());
+    participant.on("trackSubscribed", track => {
+      document.getElementById("remote-media-div").appendChild(track.attach());
     });
-
   }
 
   participantDisconnected(participant) {
@@ -94,41 +97,42 @@ $(document).ready(() => {
   console.log("ready!");
 
   const url = location.href;
-  console.log('Url', url);
+  console.log("Url", url);
 
-  if (url.indexOf('room') === -1) return;
+  if (url.indexOf("room") === -1) return;
 
-  const room = url.split('room/').pop();
-  if (room == '') return;
+  const room = url.split("room/").pop();
+  if (room == "") return;
 
   console.log(room);
 
   getAccessToken(room);
 });
 
-const getAccessToken = (room) => {
+const getAccessToken = room => {
   console.log("Getting Access Token");
 
   const http = new XMLHttpRequest();
-  const url = "https://us-central1-savethedate-91944.cloudfunctions.net/app?room=" + room;
+  const url = "https://us-central1-savethedate-91944.cloudfunctions.net/app/enter-room/?room=" + room;
 
   http.open("GET", url);
   http.send();
 
   http.onreadystatechange = (e, ev) => {
     if (http.readyState === XMLHttpRequest.DONE) {
-      console.log(http.response);
-      startConference(room, http.response);
+      const data = JSON.parse(http.response);
+      console.log(data);
+      startConference(data.meeting, data.jwt);
     }
   };
 };
 
-const startConference = (name, token) => {
-  meetingController.startMeeting(name, token);
+const startConference = (meeting, token) => {
+  meetingController.startMeeting(meeting.roomName, token);
 };
 
 function generateUrl(name) {
-  const url = 'https://savethedate-91944.web.app/room/' + name;
+  const url = "https://savethedate-91944.web.app/room/" + name;
   alert(url);
 }
 
@@ -140,26 +144,33 @@ function createRoom() {
   herName = document.getElementById(`herName`).value;
   herPhone = document.getElementById(`herPhone`).value;
   let body = {
-    hisName,
-    herName,
-    hisPhone,
-    herPhone,
-    roomName,
-  }
-  const http = new XMLHttpRequest();
+    hisName: hisName,
+    herName: herName,
+    hisPhone: hisPhone,
+    herPhone: herPhone,
+    roomName: roomName
+  };
 
-  http.open("POST", 'https://us-central1-savethedate-91944.cloudfunctions.net/app/create-room', true);
-  http.setRequestHeader("Content-type", "application/json");
-  if (http.readyState == 4 && http.status == 200) {
-    console.log(http.response);
-    meetingController.startMeeting(roomName,http.response.jwt);
-  }
-  http.send(body);
+  var xhr = new XMLHttpRequest();
 
+  xhr.addEventListener("readystatechange", function() {
+    if (this.readyState === 4) {
+      const data = JSON.parse(this.response)
+      console.log(data);
+      meetingController.startMeeting(roomName, data.jwt);
+    }
+  });
+
+  xhr.open("POST", "https://us-central1-savethedate-91944.cloudfunctions.net/app/create-room");
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.send(JSON.stringify(body));
 }
 
 function getStart() {
-  $("#start_div").slideUp('slow', createRoom);
+  createRoom();
+  $("#start_div").hide();
+  //$("#start_div").slideUp('slow', createRoom);
 }
 //turnAudio
 
