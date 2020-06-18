@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    
+    <script src="https:///savethedate-91944.web.app/sdk/game.js"></script>
+    <script>
+      const receiveMessage = (payload) => {
+        console.log('Received Message', payload);
+      }
+
+      // Init Game Controller
+      const urlParams = new URLSearchParams(location.href);
+      const token = urlParams.get('token');
+      if (token === undefined || token == ''){
+        alert("missing token");
+      }
+      var gameController = new GameController(token);
+
+      // Set message handler
+      gameController.setMessageHandler(receiveMessage);
+
+      // Start Game
+      gameController.startGame('cooking');
+
+      function endGame() {
+        
+      // End Game
+      gameController.endGame();
+
+      }
+      // To send message
+      const payload = {
+        'a': 'test'
+      }
+      gameController.sendMessage(payload);
+
+    </script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+	<style>
+	   .color1{
+        background-color: #122620;
+        color: white;
+
+      }
+      .color2{
+        background-color: #122620;
+        color: #eee0b5;
+
+      }
+      .color3{
+          background-color: #b68d40;
+          color: #122620;
+      }
+
+      .color4{
+          background-color:#d6ab60;
+          color: #122620;
+      }
+      .color5{
+        background-color: #eee0b5;
+        color: white;
+
+      }
+
+      .bt_hover { background-color: #b68d40; }
+      .card-text{
+          padding-bottom: 0;
+      }
+    
+      
+	
+	</style>
+  </head>
+  <body dir="rtl">
+    <button onclick="endGame()">Quit Game</button>
+    <div class="container fixed-top color2 mx-auto my-2" >
+        <h2 class="text-center py-auto"> Cooking Connections </h2>
+    </div>
+  </br>
+    <div class="container px-2 bg-light pt-5 mt-5 text-center" >
+        <div id = "cardsWrapper" class="row row-cols-1 row-cols-md-5" >
+            <div id = "card" class="col" >
+    	            <div class="card mx-auto my-2 shadow" style="width: 100%; height:95%;" >
+                    <img src = "" class="img-fluid"  alt="something" >
+                    <div class=" card-body font-weight-bolder">
+                        <h5 class=" card-title mx-auto " ></h5>
+                        <div class="fixed-buttom mt-4 ">
+                            <p class="  card-text font-weight-light my-auto" style = "text-align: center;"> </p>
+                        </div>
+                    </div>
+	                <button  type="button" class = "startCooking btn  rounded font-weight-bold color4"  data-recipe="" >זורם?</button>
+                 </div>
+            </div>
+        </div>
+    </div> 
+
+	
+	
+	
+	
+	<!-- Modal -->
+<div class="modal fade" id="viewModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" >
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <div id="timertxt" class=" container mx-auto text-dark" ><h5 class="font-weight-bold">הזמן שנותר: <span id="time"></span><h5></div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	  <img src = "friedeggs.jpg" id="modelImg" class="card-img-top" alt="something" class = "pic">
+      <div class="modal-body color4 text-right">
+	   <h3 class="text-center bg-white mx-auto shadow font-weight-bolder " id="recName"><b>""</b></h3>
+        <div >
+            <h4 id="ingr">מרכיבים:</h4>
+            <p id="dIngr"></p>
+		</div>
+		<div id = "inst">
+            <h4>אופן ההכנה:</h4>
+            <p id="dInst"></p>
+		</div>
+      </div>
+      <div class="modal-footer">
+	    
+        
+        <button id = "readyButton" class="btn btn-secondary btstart mx-auto btn-lg color1 ready" onclick="startRec();"  >מתחילים? </button>
+        <button id="finishButton" type="button" class=" btn btn-secondary  mx-auto btfinish color2"  >סיימתי</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scrollable modal -->
+
+<div class="alert alert-success" role="alert">
+  בתיאבון!!
+</div>
+
+
+<div class="modal-dialog modal-dialog-scrollable">
+  ...
+</div>
+  
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<script>
+	
+	var recipes = {
+	'omlets' : {'title' : 'חביתת ירקות','time':"7",'difficulty':'בינוני' ,'ingredients' :' ירקות,ביצה, מלח, שמן ', 'instructions' : ['נו, אל תגזים?' ], 'img' : 'friedeggs.jpg'},
+	'pizza' : {'title' : 'פיצה','time':"15", 'difficulty':'קל' ,'ingredients' : 'פיצה קנויה', 'instructions' : ['שים/מי במקרוגל'], 'img' : 'pizza.jpg'},
+    'spaghetti' : {'title' : 'ספגטי','time':"15",'difficulty':'בינוני' , 'ingredients' : 'ספגטי', 'instructions' : ['יש להרתיח מים','שמים את המים בספגטי בסיר','מחכים שהספגטי לא רך ולא קשה'], 'img' : 'pasta.jpg'},
+    'cookies' : {'title' : "עוגיות שוקולד",'time':"40",'difficulty':'קשה' , 'ingredients' :' קמח, מים, שמן, ביציים,סוכר,קקאו, אבקת אפייה', 'instructions' : ['מערבבים הכל','שמים בתנור','מוציאים'], 'img' : 'friedeggs.jpg'},
+	'falafel' : {'title' : 'פלאפל','time':"30",'difficulty':'בינוני' , 'ingredients' : 'חומוס, שמן, מלח,תבלינים', 'instructions' : ['יש לטחון','לערבב','לטגן בשמן עמוק'], 'img' : 'pizza.jpg'},
+    'soup' : {'title' : 'מרק ירקות','time':"20",'difficulty':'בינוני' , 'ingredients' : 'ירקות', 'instructions' : ['מרתיחים מים','שמים הכל בסיר','מבשלים'], 'img' : 'pasta.jpg'},
+    'pancakes' : {'title' : 'פנקייקס','time':"15",'difficulty':'קל' , 'ingredients' :'קמח, סוכר, שמן, ביצים, מייפל', 'instructions' : ['ערבבו את כל החומרים','טגנו'], 'img' : 'friedeggs.jpg'},
+	'french-fries' : {'title' : "צ'יפס",'time':"15",'difficulty':'קל' , 'ingredients' : "צ'יפס קפוא", 'instructions' : ['פתחו את השקית','תבלו כרצונכם','טגנו. הכניסו לתנור'], 'img' : 'pizza.jpg'},
+    'potato' : {'title' : 'תפו"א מוקרם','time':"20",'difficulty':'בינוני' , 'ingredients' : 'תפו"א אדמה, תבלינים, גבינ"צ, שמנת לבישול', 'instructions' : ['חיתכו את תפוחי האדמה','תבלו','בשלו עם הגבינ"צ והשמנת'], 'img' : 'pasta.jpg'},
+    'blinches' : {'title' : 'חביתיות','time':"15",'difficulty':'קל' , 'ingredients' :'קמח, שמן, ביצים, סוכר', 'instructions' : ['ערבבו הכל','טגנו'], 'img' : 'friedeggs.jpg'},
+	'ice' : {'title' : 'אייס קפה','time':"5",'difficulty':'קל' , 'ingredients' : 'חלב ,קפה ,סוכר', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pizza.jpg'},
+    'milk-shake' : {'title' : 'מילקשייק','time':"7", 'difficulty':'קל' ,'ingredients' : 'pasta', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pasta.jpg'},
+    'chocolate-cake' : {'title' : 'עוגת שוקולד','time':"30",'difficulty':'בינוני' , 'ingredients' : 'pasta', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pasta.jpg'},
+    'chocolate-balls' : {'title' : 'כדורי שוקולד','time':"12",'difficulty':'קל' , 'ingredients' :' עשר דקות', 'instructions' : ['Crack Eggs','Put in pan','turn on fire','keep flippin','beteavon'], 'img' : 'friedeggs.jpg'},
+	'toast' : {'title' : 'טוסט','time':"5",'difficulty':'קל' , 'ingredients' : 'Frozen Pizza', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pizza.jpg'},
+	'salomon' : {'title' : 'דג סלומון ','time':"20",'difficulty':'קשה' , 'ingredients' : 'pasta', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pasta.jpg'},
+	'microwave-meal' : {'title' : 'מנה חמה','time':"3",'difficulty':'קשה מאד' , 'ingredients' : 'pasta', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pasta.jpg'},
+    
+    };
+    
+    var globalTimer=0;
+     $('#card').hide();
+	 $.each(recipes,function(key,vals){
+	
+	 $('#card')
+          .clone()
+          .attr('id', 'rec_'+ key)
+          .appendTo('#cardsWrapper');
+        $("#rec_" + key).show();
+        $("#rec_" + key + " .card-title").text(vals.title);
+        $("#rec_" + key + " .card-text").text("  "+vals.time+ "  דקות "+"|"+"  "+vals.difficulty);
+        $("#rec_" + key + " img").attr('src',vals.img);
+        $("#rec_" + key + " .startCooking").attr('data-recipe',key); 
+
+
+      $("#rec_" + key + " .startCooking").click(function(){
+		 
+        $("#recName").text(recipes[key].title);
+        $("#readyButton").show(); 
+        $("#finishButton").hide();
+        $("#modelImg").attr("src", recipes[key].img);
+        $("#time").css('color', 'black');
+        $("#dInst").text(recipes[key].instructions);
+        $("#dIngr").text(recipes[key].ingredients);
+        $("#viewModel").modal('show');
+
+        currentKey = key;
+      })
+       
+
+        $("#rec_" + key + " .ready").click(function(){
+            $("#rec_" + key + " .ready").text(vals.time);
+            startRec(key);
+        });
+        
+        
+    });
+    
+	
+	
+    
+	 
+    var currentKey = null;
+    var exe=null; 
+
+    function startTimer(duration, display) {
+        console.log("Timer Started");
+        var timer = duration, minutes, seconds;
+        exe= setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+            if(timer==60){
+                $("#time").css('color', 'red');
+            }
+    
+            if (--timer < 0) {
+                timer = "0";
+            }
+            
+
+        }, 1000);
+    }
+
+    $('#viewModel').on('hidden.bs.modal',finishRec);
+
+
+    function startRec() {
+        $("#readyButton").hide();
+        $("#finishButton").show("slow");
+         var Minutes = recipes[currentKey].time * 60,
+            display = document.querySelector('#time');
+        startTimer(Minutes, display);
+    };
+
+    $("#finishButton").click(function(){
+	  $("#time").text("00:00");
+        $("#finishButton").hide();
+        clearTimeout(exe);
+	});
+
+    function finishRec()
+    {
+        $("#time").text("00:00");
+        $("#finishButton").hide();
+        clearTimeout(exe);
+		$("#modal").modal('hide');
+    }
+    
+    $('.startCooking').hover(function(){$(this).toggleClass('bt_hover');});
+
+
+	
+	console.log(recipes);
+	</script>
+  </body>
+</html>
+
