@@ -1,3 +1,4 @@
+import * as functions from 'firebase-functions';
 
 
 const getAccessToken = (req: any, res: any) => {
@@ -9,8 +10,8 @@ const getAccessToken = (req: any, res: any) => {
 
     // Substitute your Twilio AccountSid and ApiKey details
     var ACCOUNT_SID = 'ACbee50e6fc385c44262b929dc428457ff'
-    var API_KEY_SID = 'SKd741d28241957be63d0265dc8da78c9e';
-    var API_KEY_SECRET = 'xrylImZlrDLrR64gybrzB4773bzQWeEM';
+    var API_KEY_SID = functions.config().twilio.sid;
+    var API_KEY_SECRET = functions.config().twilio.secret;
 
     // Create an Access Token
     var accessToken = new AccessToken(
