@@ -16,15 +16,15 @@
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
   <link rel="stylesheet" href="https://savethedate-91944.web.app/style/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
   <h1 class="text-center">welcome</h1>
 
-  <div id="start_div" class="container p-5 bg-light shadow wrapper fadeInDown">
+  <!--<div id="start_div" class="container p-5 bg-light shadow wrapper fadeInDown">
     <div id="formContent">
-      <!-- Tabs Titles -->
-      <!-- Login Form -->
+  
       <form>
         <div class="row">
           <div class="col-6">
@@ -39,21 +39,85 @@
             <input class="form-control" type="text" id="herName" class="fadeIn second" name="herName"
               placeholder="her name">
             <br>
-            <input class="form-control" type="text" id="herName" class="fadeIn third" name="herName"
+            <input class="form-control" type="text" id="herPhone" class="fadeIn third" name="herPhone"
               placeholder="her phone">
           </div>
         </div>
-        <button type="submit" id="startbtn" class="col-12 btn btn-primary" onclick="getStart()"> Connect </button>
+        <button type="button" id="startbtn" class="col-12 btn btn-primary" onclick="getStart()"> Connect </button>
+      </form>
+    </div>
+  </div>-->
+
+  <div dir="rtl" class="container p-5 bg-light shadow wrapper fadeInDown">
+
+    <div class="col-lg-3 mx-auto text-center"><img src="save-the-date.png" class="img-fluid"></div>
+    <h3 class="text-center">להתחלת סשן אינטראקטיבי - מלאו את הטופס:</h3>
+    <div id="formContent " class="col-lg-8 mx-auto">
+      <!-- Tabs Titles -->
+      <!-- Login Form -->
+      <form>
+        <div class="row">
+          <div class="col-6">
+            <input class="form-control" type="text" id="hisName" class="fadeIn second" name="hisName"
+              placeholder="השם שלך " required>
+
+            <br>
+            <input class="form-control" type="tel" id="hisPhone" class="fadeIn third" name="hisPhone"
+              placeholder="הטלפון שלך" required>
+            <!--  <div class="invalid-feedback">
+            Please provide a valid state.
+          </div>-->
+          </div>
+          <br>
+          <div class="col-6 text-right rtl">
+            <input class="form-control" type="text" id="herName" class="fadeIn second" name="herName"
+              placeholder="השם שלו/ה" required>
+            <br>
+            <input class="form-control" type="tel" id="herPhone" class="fadeIn third" name="herName"
+              placeholder="הטלפון שלו/ה" required>
+
+          </div>
+        </div>
+        <br>
+        <button type="button" id="startbtn" class="col-12 btn btn-primary" onclick="getStart()">מתחילים!</button>
+        <br>
+
+
       </form>
     </div>
   </div>
 
 
-  <div id="remote-media-div"></div>
-  <div id="local-media">
-    <button id="turn-on-audio" onclick="turnOnAudio()">turn-on-audio</button>
-    <button id="turn-off-audio" onclick="turnOffAudio()"> turn-off-audio</button>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <div id="display_div" style="display: none;">
+
+    <div class="row">
+      <div class="col-lg-6 p-4">
+        <div class="h-100" id="">
+          <h3>בחרו משחק:</h3>
+          <div class="row  " role="group" aria-label="First group">
+            <button type="button" class="btn btn-danger s rounded-0 col-md-3">game 1</button>
+            <button type="button" class="btn btn-danger s rounded-0 col-md-3">game 2</button>
+            <button type="button" class="btn btn-danger s rounded-0 col-md-3">game 3</button>
+            <button type="button" class="btn btn-danger s rounded-0 col-md-3">game 4</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 p-4">
+        <div class=" p-5 h-100" id="">
+          <div id="remote-media-div"></div>
+          <div id="local-media">
+            <button id="turn-on-audio" onclick="turnOnAudio()"><i class="fa fa-microphone"></i></button>
+            <button id="turn-off-audio" onclick="turnOffAudio()"><i class="fa fa-microphone-slash"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+
+
 
 
 

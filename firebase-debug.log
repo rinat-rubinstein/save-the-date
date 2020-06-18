@@ -1,0 +1,22 @@
+[debug] [2020-06-18T18:06:57.044Z] ----------------------------------------------------------------------
+[debug] [2020-06-18T18:06:57.047Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Admin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2020-06-18T18:06:57.047Z] CLI Version:   8.4.2
+[debug] [2020-06-18T18:06:57.047Z] Platform:      win32
+[debug] [2020-06-18T18:06:57.047Z] Node Version:  v10.13.0
+[debug] [2020-06-18T18:06:57.049Z] Time:          Thu Jun 18 2020 21:06:57 GMT+0300 (GMT+03:00)
+[debug] [2020-06-18T18:06:57.049Z] ----------------------------------------------------------------------
+[debug] [2020-06-18T18:06:57.049Z] 
+[debug] [2020-06-18T18:06:57.063Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-06-18T18:06:57.064Z] > authorizing via signed-in user
+[debug] [2020-06-18T18:06:57.064Z] [iam] checking project savethedate-91944 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2020-06-18T18:06:57.068Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/savethedate-91944:testIamPermissions  
+ {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2020-06-18T18:06:58.067Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Thu, 18 Jun 2020 18:06:56 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=637","alt-svc":"h3-28=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q049=\":443\"; ma=2592000,h3-Q048=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-06-18T18:06:58.069Z] >>> HTTP REQUEST POST https://iam.googleapis.com/v1/projects/savethedate-91944/serviceAccounts/savethedate-91944@appspot.gserviceaccount.com:testIamPermissions  
+ {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2020-06-18T18:06:58.617Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Thu, 18 Jun 2020 18:06:57 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-28=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-25=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q049=\":443\"; ma=2592000,h3-Q048=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] 
+[info] === Deploying to 'savethedate-91944'...
+[info] 
+[info] i  deploying functions 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
