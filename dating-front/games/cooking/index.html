@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
 
-    
+        
     <script src="https:///savethedate-91944.web.app/sdk/game.js"></script>
     <script>
       const receiveMessage = (payload) => {
@@ -24,11 +24,10 @@
       gameController.startGame('cooking');
 
       function endGame() {
-        
-      // End Game
-      gameController.endGame();
-
+        // End Game
+        gameController.endGame();
       }
+      
       // To send message
       const payload = {
         'a': 'test'
@@ -37,6 +36,7 @@
 
     </script>
 
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -44,7 +44,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Cooking Connection</title>
 	<style>
 	   .color1{
         background-color: #122620;
@@ -81,7 +81,6 @@
 	</style>
   </head>
   <body dir="rtl">
-    <button onclick="endGame()">Quit Game</button>
     <div class="container fixed-top color2 mx-auto my-2" >
         <h2 class="text-center py-auto"> Cooking Connections </h2>
     </div>
@@ -141,9 +140,7 @@
 
 <!-- Scrollable modal -->
 
-<div class="alert alert-success" role="alert">
-  בתיאבון!!
-</div>
+
 
 
 <div class="modal-dialog modal-dialog-scrollable">
@@ -162,20 +159,20 @@
 	'omlets' : {'title' : 'חביתת ירקות','time':"7",'difficulty':'בינוני' ,'ingredients' :' ירקות,ביצה, מלח, שמן ', 'instructions' : ['נו, אל תגזים?' ], 'img' : 'friedeggs.jpg'},
 	'pizza' : {'title' : 'פיצה','time':"15", 'difficulty':'קל' ,'ingredients' : 'פיצה קנויה', 'instructions' : ['שים/מי במקרוגל'], 'img' : 'pizza.jpg'},
     'spaghetti' : {'title' : 'ספגטי','time':"15",'difficulty':'בינוני' , 'ingredients' : 'ספגטי', 'instructions' : ['יש להרתיח מים','שמים את המים בספגטי בסיר','מחכים שהספגטי לא רך ולא קשה'], 'img' : 'pasta.jpg'},
-    'cookies' : {'title' : "עוגיות שוקולד",'time':"40",'difficulty':'קשה' , 'ingredients' :' קמח, מים, שמן, ביציים,סוכר,קקאו, אבקת אפייה', 'instructions' : ['מערבבים הכל','שמים בתנור','מוציאים'], 'img' : 'friedeggs.jpg'},
-	'falafel' : {'title' : 'פלאפל','time':"30",'difficulty':'בינוני' , 'ingredients' : 'חומוס, שמן, מלח,תבלינים', 'instructions' : ['יש לטחון','לערבב','לטגן בשמן עמוק'], 'img' : 'pizza.jpg'},
-    'soup' : {'title' : 'מרק ירקות','time':"20",'difficulty':'בינוני' , 'ingredients' : 'ירקות', 'instructions' : ['מרתיחים מים','שמים הכל בסיר','מבשלים'], 'img' : 'pasta.jpg'},
-    'pancakes' : {'title' : 'פנקייקס','time':"15",'difficulty':'קל' , 'ingredients' :'קמח, סוכר, שמן, ביצים, מייפל', 'instructions' : ['ערבבו את כל החומרים','טגנו'], 'img' : 'friedeggs.jpg'},
-	'french-fries' : {'title' : "צ'יפס",'time':"15",'difficulty':'קל' , 'ingredients' : "צ'יפס קפוא", 'instructions' : ['פתחו את השקית','תבלו כרצונכם','טגנו. הכניסו לתנור'], 'img' : 'pizza.jpg'},
-    'potato' : {'title' : 'תפו"א מוקרם','time':"20",'difficulty':'בינוני' , 'ingredients' : 'תפו"א אדמה, תבלינים, גבינ"צ, שמנת לבישול', 'instructions' : ['חיתכו את תפוחי האדמה','תבלו','בשלו עם הגבינ"צ והשמנת'], 'img' : 'pasta.jpg'},
-    'blinches' : {'title' : 'חביתיות','time':"15",'difficulty':'קל' , 'ingredients' :'קמח, שמן, ביצים, סוכר', 'instructions' : ['ערבבו הכל','טגנו'], 'img' : 'friedeggs.jpg'},
-	'ice' : {'title' : 'אייס קפה','time':"5",'difficulty':'קל' , 'ingredients' : 'חלב ,קפה ,סוכר', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pizza.jpg'},
-    'milk-shake' : {'title' : 'מילקשייק','time':"7", 'difficulty':'קל' ,'ingredients' : 'pasta', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pasta.jpg'},
-    'chocolate-cake' : {'title' : 'עוגת שוקולד','time':"30",'difficulty':'בינוני' , 'ingredients' : 'pasta', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pasta.jpg'},
-    'chocolate-balls' : {'title' : 'כדורי שוקולד','time':"12",'difficulty':'קל' , 'ingredients' :' עשר דקות', 'instructions' : ['Crack Eggs','Put in pan','turn on fire','keep flippin','beteavon'], 'img' : 'friedeggs.jpg'},
-	'toast' : {'title' : 'טוסט','time':"5",'difficulty':'קל' , 'ingredients' : 'Frozen Pizza', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pizza.jpg'},
-	'salomon' : {'title' : 'דג סלומון ','time':"20",'difficulty':'קשה' , 'ingredients' : 'pasta', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pasta.jpg'},
-	'microwave-meal' : {'title' : 'מנה חמה','time':"3",'difficulty':'קשה מאד' , 'ingredients' : 'pasta', 'instructions' : ['Open the plastic','Put in the Micro','eat'], 'img' : 'pasta.jpg'},
+    'cookies' : {'title' : "עוגיות שוקולד",'time':"40",'difficulty':'קשה' , 'ingredients' :' קמח, מים, שמן, ביציים,סוכר,קקאו, אבקת אפייה', 'instructions' : ['מערבבים הכל','שמים בתנור','מוציאים'], 'img' : 'cookies.jpg'},
+	'falafel' : {'title' : 'פלאפל','time':"30",'difficulty':'בינוני' , 'ingredients' : 'חומוס, שמן, מלח,תבלינים', 'instructions' : ['יש לטחון','לערבב','לטגן בשמן עמוק'], 'img' : 'falafel.jpg'},
+    'soup' : {'title' : 'מרק ירקות','time':"20",'difficulty':'בינוני' , 'ingredients' : 'ירקות', 'instructions' : ['מרתיחים מים','שמים הכל בסיר','מבשלים'], 'img' : 'soup1.jpg'},
+    'pancakes' : {'title' : 'פנקייקס','time':"15",'difficulty':'קל' , 'ingredients' :'קמח, סוכר, שמן, ביצים, מייפל', 'instructions' : ['ערבבו את כל החומרים','טגנו'], 'img' : 'pancakes.jpg'},
+	'french-fries' : {'title' : "צ'יפס",'time':"15",'difficulty':'קל' , 'ingredients' : "צ'יפס קפוא", 'instructions' : ['פתחו את השקית','תבלו כרצונכם','טגנו. הכניסו לתנור'], 'img' : 'french-fries.jpg'},
+    'potato' : {'title' : 'תפו"א מוקרם','time':"20",'difficulty':'בינוני' , 'ingredients' : 'תפו"א אדמה, תבלינים, גבינ"צ, שמנת לבישול', 'instructions' : ['חיתכו את תפוחי האדמה','תבלו','בשלו עם הגבינ"צ והשמנת'], 'img' : 'potato.jpg'},
+    'blinches' : {'title' : 'חביתיות','time':"15",'difficulty':'קל' , 'ingredients' :'קמח, שמן, ביצים, סוכר', 'instructions' : ['ערבבו הכל','טגנו'], 'img' : 'blinches.jpg'},
+	'ice' : {'title' : 'אייס קפה','time':"5",'difficulty':'קל' , 'ingredients' : 'חלב,קפה, סוכר' ,'instructions': ['קחו את המצרכים ','רסקו','הקפיאו'], 'img' : 'ice.jpg'},
+    'milk-shake' : {'title' : 'מילקשייק','time':"7", 'difficulty':'קל' ,'ingredients' : 'חלב,סוכר,פירות ,קרח', 'instructions' :['רסקו הכל '], 'img' : 'milkshake1.jpg'},
+    'chocolate-cake' : {'title' : 'עוגת שוקולד','time':"30",'difficulty':'בינוני' , 'ingredients' : 'קמח,שמן,ביצים, מלח, קקאו, אבקת אפיה, סוכר', 'instructions' : ['ערבבו הכל','הכניסו לתנור'], 'img' : 'cake.jpg'},
+    'chocolate-balls' : {'title' : 'כדורי שוקולד','time':"12",'difficulty':'קל' , 'ingredients' :'שוקולד, ביסקוויטים, סוכר, קוקוס', 'instructions' : ['רסקו הכל','צרו כדורים'], 'img' : 'chocolate-balls.jpg'},
+	'toast' : {'title' : 'טוסט','time':"5",'difficulty':'קל' , 'ingredients' : 'לחם, גבינ"צ, חמאה, תוספות לבחירה', 'instructions' : ['מרחו הכל בלחם','שימו בטוסטר'], 'img' : 'toast.jpg'},
+	'salomon' : {'title' : 'דג סלומון ','time':"20",'difficulty':'קשה' , 'ingredients' : 'דג סלמון, תבלינים וירקות לבחירה', 'instructions' : ['שימו הכל בתבנית','הכניסו לתנור'], 'img' : 'salomon.jpg'},
+	'microwave-meal' : {'title' : 'מנה חמה','time':"3",'difficulty':'קשה מאד' , 'ingredients' : 'מנה חמה', 'instructions' : ['פתחו את המנה החמה','הוסיפו מים רותחים','ערבבו ואיכלו'], 'img' : 'microwave-dish.jpg'},
     
     };
     
@@ -269,7 +266,7 @@
         $("#time").text("00:00");
         $("#finishButton").hide();
         clearTimeout(exe);
-		$("#modal").modal('hide');
+		$("#viewModel").hide();
     }
     
     $('.startCooking').hover(function(){$(this).toggleClass('bt_hover');});
