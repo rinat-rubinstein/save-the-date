@@ -9,7 +9,7 @@ const getAccessToken = (req: any, res: any) => {
     var VideoGrant = AccessToken.VideoGrant;
 
     // Substitute your Twilio AccountSid and ApiKey details
-    var ACCOUNT_SID = 'ACbee50e6fc385c44262b929dc428457ff'
+    var ACCOUNT_SID = functions.config().twilio.account;
     var API_KEY_SID = functions.config().twilio.sid;
     var API_KEY_SECRET = functions.config().twilio.secret;
 

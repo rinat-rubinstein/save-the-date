@@ -10,4 +10,5 @@ app.use(cors({ origin: '*' }));
 
 app.use('/', handlers.getAccessToken)
 
+
 exports.app = functions.https.onRequest(app);
