@@ -7,15 +7,14 @@ $(document).ready(() => {
   const url = location.href;
   console.log('Url', url);
 
-  if (url == 'https://savethedate-91944.web.app/room/') return;
+  if (url.indexOf('room') === -1) return;
 
-  const room = url.split('https://savethedate-91944.web.app/room/').pop();
+  const room = url.split('room/').pop();
   if (room == '') return;
 
   console.log(room);
   
   getAccessToken(room);
-
 });
 
 const getAccessToken = (room) => {
