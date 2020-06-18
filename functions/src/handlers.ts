@@ -3,7 +3,7 @@ import * as functions from 'firebase-functions';
 
 const getAccessToken = (req: any, res: any) => {
 
-    console.log('Getting Access Token')
+    console.log('Getting Access Token', req.query);
 
     var AccessToken = require('twilio').jwt.AccessToken;
     var VideoGrant = AccessToken.VideoGrant;
@@ -21,7 +21,7 @@ const getAccessToken = (req: any, res: any) => {
     );
 
     // Set the Identity of this token
-    accessToken.identity = req.body.identity ?? Math.random().toString();
+    accessToken.identity = req.query.identity ?? Math.random().toString();
 
     // Grant access to Video
     const grant = new VideoGrant();
