@@ -268,7 +268,7 @@ function createRoom() {
 }
 //dont forget picture
 function getStart() {
-  document.getElementById("display_div").style.display="block";
+  $("#display_div").show();
   createRoom();
 }
 //turnAudio
