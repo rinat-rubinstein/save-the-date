@@ -9,6 +9,8 @@ class MeetingController {
   _herName;
   _herPhone;
 
+  currentUserName;
+
   constructor(videoInstance) {
     this.Video = videoInstance;
   }
@@ -91,7 +93,79 @@ class MeetingController {
   }
 }
 
+class DatabaseController {
+  _firestore;
+
+  _meeting;
+
+  constructor(firestore, meeting) {
+    this._firestore = firestore;
+    this._meeting = meeting;
+  }
+
+  sendMessage(payload) {
+    console.log("Sending...", payload);
+    this._firestore
+      .collection("meetings")
+      .doc(this._meeting.meetingId)
+      .collection("messages")
+      .add(JSON.parse(JSON.stringify({ ...payload, createdAt: new Date() })));
+  }
+
+  setMessageHandler(handler) {
+    this._firestore
+      .collection("meetings")
+      .doc(this._meeting.meetingId)
+      .collection("messages")
+      .onSnapshot(snapshot => {
+        snapshot.docChanges().forEach(change => {
+          if (change.type === "added") {
+            handler({ ...change.doc.data(), messageId: change.doc.id });
+          }
+        });
+      });
+  }
+
+  startGame(gameName, sender) {
+    console.log("Starting Game", gameName);
+    this._firestore
+      .collection("meetings")
+      .doc(this._meeting.meetingId)
+      .collection("games")
+      .add({ gameName, sender, createdAt: new Date(), status: "OPEN" });
+  }
+
+  endGame(gameId, sender) {
+    console.log("Ending Game", gameId);
+    this._firestore
+      .collection("meetings")
+      .doc(this._meeting.meetingId)
+      .collection("games")
+      .doc(gameId)
+      .update({ status: "CLOSE" });
+  }
+
+  setGameListener(onStart, onEnd) {
+    this._firestore
+    .collection("meetings")
+    .doc(this._meeting.meetingId)
+    .collection("games")
+    .onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        if (change.type === "added") {
+          console.log('Added Game', change.doc.id, change.doc.data());
+          onStart({...change.doc.data(), gameId: change.doc.id});
+        } else if (change.type === "modified" && change.doc.data().status === "CLOSE") {
+          console.log('Modified Game', change.doc.id, change.doc.data());
+          onEnd();
+        }
+      });
+    });
+  }
+}
+
 let meetingController = new MeetingController(Twilio.Video);
+let gameStarted = false;
 
 $(document).ready(() => {
   console.log("ready!");
@@ -122,6 +196,7 @@ const getAccessToken = room => {
     if (http.readyState === XMLHttpRequest.DONE) {
       const data = JSON.parse(http.response);
       console.log(data);
+      meetingController.currentUserName = data.meeting.herName;
       startConference(data.meeting, data.jwt);
     }
   };
@@ -129,7 +204,31 @@ const getAccessToken = room => {
 
 const startConference = (meeting, token) => {
   meetingController.startMeeting(meeting.roomName, token);
+  $("#start_div").hide();
+
+  let databaseController = new DatabaseController(firebase.firestore(), meeting);
+  databaseController.setGameListener(startGame, endGame);
+
+  window.databaseController = databaseController;
+  window.meetingController = meetingController;
+
+  //startGame("cooking");
 };
+
+function startGame(game) {
+  if (gameStarted) return;
+  gameStarted = true;
+  window.game = game;
+  const iframe = document.createElement("iframe");
+  iframe.id = 'gameframe';
+  iframe.src = "https://savethedate-91944.web.app/games/cooking/index.html?token=1";
+  document.getElementById("game").appendChild(iframe);
+}
+
+function endGame() {
+  gameStarted = false;
+  document.getElementById('gameframe').remove();
+}
 
 function generateUrl(name) {
   const url = "https://savethedate-91944.web.app/room/" + name;
@@ -155,9 +254,10 @@ function createRoom() {
 
   xhr.addEventListener("readystatechange", function() {
     if (this.readyState === 4) {
-      const data = JSON.parse(this.response)
+      const data = JSON.parse(this.response);
       console.log(data);
-      meetingController.startMeeting(roomName, data.jwt);
+      meetingController.currentUserName = body.hisName;
+      startConference(data.meeting, data.jwt);
     }
   });
 
@@ -169,8 +269,6 @@ function createRoom() {
 
 function getStart() {
   createRoom();
-  $("#start_div").hide();
-  //$("#start_div").slideUp('slow', createRoom);
 }
 //turnAudio
 
