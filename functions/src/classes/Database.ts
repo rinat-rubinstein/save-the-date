@@ -18,7 +18,7 @@ export class Database {
         try {
             const snap = await Database.meetingsCollection.where('roomName', '==', roomName).get();
             if (snap.empty) return null;
-            const d = { ...snap.docs[0].data(), id: snap.docs[0].id };
+            const d = { ...snap.docs[0].data(), meetingId: snap.docs[0].id };
             return d;
         } catch (error) {
             console.error(error);
