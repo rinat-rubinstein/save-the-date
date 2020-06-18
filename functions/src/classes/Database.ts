@@ -25,4 +25,24 @@ export class Database {
             return null;
         }
     }
+
+    // static async addMessageToMeeting(meetingId: string, payload: any) {
+    //     try {
+    //         await Database.meetingsCollection.doc(meetingId).collection('messages').add(payload);
+    //         return;
+    //     } catch (error) {
+    //         console.error(error);
+    //         return false;
+    //     }
+    // }
+    
+    // static async readLastMessageOfMeeting(meetingId: string) {
+    //     try {
+    //         await Database.meetingsCollection.doc(meetingId).collection('messages').orderBy('date', 'desc').
+    //         return;
+    //     } catch (error) {
+    //         console.error(error);
+    //         return false;
+    //     }
+    // }
 }
