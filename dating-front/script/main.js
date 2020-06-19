@@ -204,7 +204,8 @@ const getAccessToken = room => {
 
 const startConference = (meeting, token) => {
   meetingController.startMeeting(meeting.roomName, token);
-  $("#start_div").hide();
+  document.getElementById("login_div").style.display="none"
+  document.getElementById("display_div").style.display="block";
 
   let databaseController = new DatabaseController(firebase.firestore(), meeting);
   databaseController.setGameListener(startGame, endGame);
@@ -268,9 +269,13 @@ function createRoom() {
 }
 //dont forget picture
 function getStart() {
-  $("#display_div").show();
   createRoom();
 }
+
+function initGame(gameName) {
+  window.databaseController.startGame(gameName, window.meetingController.currentUserName);
+}
+
 //turnAudio
 
 function turnOffAudio() {
