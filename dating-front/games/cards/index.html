@@ -1,409 +1,445 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>משחק(:</title>
-	
-	<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
-	
-	<style>
-	img{
-	background-color:#B68D54;
-	padding:3px;
-	}
-body {
-  font-family: Heebo, sans-serif;
-  direction: rtl;
-}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-.flip-box {
-  background-color: transparent;
-  width: 100%;
-  height: auto;;
-  
-  border: 1px solid #f1f1f1;
-  perspective: 1000px;
-}
+  <title>משחק(:</title>
 
-.flip-box-inner {
-  position: relative;
-  padding-bottom: 100%;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
 
-.flip-box:hover .flip-box-inner {
-  transform: rotateY(180deg);
-}
+  <style>
+    img {
+      background-color: #B68D54;
+      padding: 3px;
+    }
 
-.flip-box-front, .flip-box-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
+    body {
+      font-family: Heebo, sans-serif;
+      direction: rtl;
+    }
 
-.flip-box-front {
-  background-color: #bbb;
-  color: #122620;
-  border-radius: 10px;
-  
-  
-}
+    .flip-box {
+      background-color: transparent;
+      width: 100%;
+      height: auto;
+      ;
 
-.flip-box-back {
-  background-color:#EEE0B5;
-  color: #122620;
-  transform: rotateY(180deg);
-  border-radius: 10px;
-}
+      border: 1px solid #f1f1f1;
+      perspective: 1000px;
+    }
 
-.flip-box img {
-width: 100%;
-}
+    .flip-box-inner {
+      position: relative;
+      padding-bottom: 100%;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
 
-.flip-box{
-padding: 20px;
-}
+    .flip-box:hover .flip-box-inner {
+      transform: rotateY(180deg);
+    }
 
-img{
-border-radius: 10px;
-box-shadow: 4px 4px;
+    .flip-box-front,
+    .flip-box-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
 
-}
-.button{
-border-radius: 10px;
-box-shadow: 4px 4px;
-
-}
-</style>
-  </head>
-  <body>
-  	<div id="contallend" class="container p-1 .bg-secondary shadow mt-1" style="display: none; position: relative;border: 3px solid #B68D54;">
-
-  <h1 id="namegame2" class="text-shadow text-center" style="text: bold; color:#122620; font-size:70px; display:none;"><strong>משימה ממבט ראשון</strong></h1>
-
-<p id="byebye" class="text-shadow text-center" style=" color:#122620; font-size:40px; display:none;"><br>תודה רבה ששיחקתם, ומקווים להפגש בפעם הבאה!</p>
-	</div>
-	
-	
-	<div id="contall" class="container p-1 .bg-secondary shadow mt-1" style="position: relative;border: 3px solid #B68D54;">
-	
-	
-	<audio id="myAudio" src="audios/claps2.mp3" ></audio>
-    <img src="pics/emogi.png" width="10%" height="10%" id="clapbutton" alt="avatar" class = "img-fluid" style=" color:#122620; background:#B68D54;"
-		onclick="clapStart();"></img>
-	 <h1 class="text-shadow text-center" style="color:#122620; font-size:70px;"> </h1>
-	 <h1 class="text-shadow text-center" style="color:#122620; font-size:70px;">ברוכים הבאים למשחק</h1>
-	 <h1 class="text-shadow text-center" style="color:#122620; font-size:70px;"> </h1>
-
-	 <h1 id="namegame" class="text-shadow text-center" style="text: bold; color:#122620; font-size:70px;"><strong>משימה ממבט ראשון</strong></h1>
-	 	 <h1 class="text-shadow text-center" style="color:#122620; font-size:70px;"> </h1>
-
-	 <p id="stsrtexp" class="text-shadow text-center" style="color:#122620; font-size:20px;"><br>להתחלה יש ללחוץ על הכפתור<b>↓</b></br></p>
-	  <div>
-	    <button id="startButton" class="btn btn-block  rounded-0 shadow" style="border-radius: 50px; margin:right; font-size:50px; color:#122620; background:#B68D54;"
-		onclick="startGame();">:)התחלת משחק</button>
-		 <div>
-	    <button id="restartgamebutton" class="btn btn-block  rounded-0 shadow" style="display:none; margin:right; font-size:50px; color:#122620; background:#B68D54 ;"
-		onclick="restartgame();">איתחול קלפי משחק</button>
-      </div>
-	  		 <h1 id="whiteLine" class="text-shadow text-center" style="display:none; text: bold; color:#122620; font-size:20px;"> </h1>
-
-      </div> 
-		 <p id="endexp2" class="text-shadow text-center" style="color:#122620; font-size:20px;"><br>לחזרה לדף הקודם<b>↓</b></br></p>
-       <div>
-	    <button id="endButtonup" class="btn btn-block  rounded-0 shadow" style="margin:right; font-size:50px; color:#122620; background:#5f4661;"
-		onclick="endGame();">חזרה</button>
-      </div>
-	  		 
-
-	
-	
-	
-	<div class="cardtable" id="gameArea" style="display:none;">
-	<div class = "row">
-	
-     
-<div class="flip-box col-lg-4" id="fb1">
-  <div class="flip-box-inner">
-    <div class="flip-box-front">
-     <img  src="pics/wine.jpg"
- alt="avatar">
-    </div>
-    <div class="flip-box-back shadow" style="border-color:red;">
-	<h1><h1>
-      <h2>המשימה:1</h2>
-	  <p></p>
-	  <p2></p2>
-    </div>
-  </div>
-</div>
-         
-         
-<div class="flip-box col-lg-4" id="fb2" >
-  <div class="flip-box-inner">
-    <div class="flip-box-front">
-      <img class = "img-fluid" src="
-pics/wine.jpg"
- alt="avatar" >
-    </div>
-    <div class="flip-box-back shadow">
-      <h2>המשימה:2</h2>
-	  <p></p>
-	  <p2></p2>
-    </div>
-  </div>
-</div>        
-         
-         
-<div class="flip-box col-lg-4" id="fb3">
-  <div class="flip-box-inner">
-    <div class="flip-box-front">
-<img class = "img-fluid" src="
-pics/wine.jpg"
- alt="avatar" >    </div>
-    <div class="flip-box-back shadow">
-      <h2>המשימה3:</h2>
-	  <p></p>
-	  <p2></p2>
-    </div>
-  </div>
-</div>        
-		  
-     
-<div class="flip-box col-lg-4" id="fb4">
-  <div class="flip-box-inner">
-    <div class="flip-box-front ">
-    <img class = "img-fluid" src="
-pics/wine.jpg"
- alt="avatar" >
-    </div>
-    <div class="flip-box-back shadow">
-      <h2>המשימה:4</h2>
-	  <p></p>
-	  <p2></p2>
-    </div>
-  </div>
-</div> 
-	 
-         
-<div class="flip-box col-lg-4" id="fb5">
-  <div class="flip-box-inner">
-    <div class="flip-box-front">
-     <img class = "img-fluid" src="
-pics/wine.jpg"
- alt="avatar" >
-    </div>
-    <div class="flip-box-back shadow">
-      <h2>המשימה:5</h2>
-	  <p></p>
-	  <p2></p2>
-    </div>
-  </div>
-</div> 
-		 
-             
-<div class="flip-box col-lg-4" id="fb6">
-  <div class="flip-box-inner">
-    <div class="flip-box-front">
-     <img class = "img-fluid" src="
-pics/wine.jpg"
- alt="avatar" >
-    </div>
-    <div class="flip-box-back shadow">
-      <h2>המשימה:6</h2>
-	  <p></p>
-	  <p2></p2>
-    </div>
-  </div>
-</div> 
-           
-     
-<div class="flip-box col-lg-4"id="fb7">
-  <div class="flip-box-inner">
-    <div class="flip-box-front">
-     <img class = "img-fluid" src="
-pics/wine.jpg"
- alt="avatar" >
-    </div>
-    <div class="flip-box-back shadow">
-      <h2>המשימה:7</h2>
-	  <p></p>
-	  <p2></p2>
-    </div>
-  </div>
-</div>
-	 
-	 
-<div class="flip-box col-lg-4" id="fb8">
-  <div class="flip-box-inner">
-    <div class="flip-box-front">
-      <img class = "img-fluid" src="
-pics/wine.jpg"
- alt="avatar" >
-    </div>
-    <div class="flip-box-back shadow">
-      <h2>המשימה:8</h2>
-	  <p></p>
-	  <p2></p2>
-    </div>
-  </div>
-</div>	
-	 
-	 
-<div class="flip-box col-lg-4" id="fb9">
-  <div class="flip-box-inner">
-    <div class="flip-box-front">
-     <img class = "img-fluid" src="pics/wine.jpg"
- alt="avatar" >
-    </div>
-    <div class="flip-box-back shadow">
-      <h2>המשימה:9</h2>
-	  <p></p>
-	  <p2></p2>
-    </div>
-  </div>
-</div>	
-	  
-	
-	
-	</div>
-	</div>
-	
-		</div>
+    .flip-box-front {
+      background-color: #bbb;
+      color: #122620;
+      border-radius: 10px;
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    }
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    .flip-box-back {
+      background-color: #EEE0B5;
+      color: #122620;
+      transform: rotateY(180deg);
+      border-radius: 10px;
+    }
+
+    .flip-box img {
+      width: 100%;
+    }
+
+    .flip-box {
+      padding: 20px;
+    }
+
+    img {
+      border-radius: 10px;
+      box-shadow: 4px 4px;
+
+    }
+
+    .button {
+      border-radius: 10px;
+      box-shadow: 4px 4px;
+
+    }
+  </style>
+
+
+  <script src="https:///savethedate-91944.web.app/sdk/game.js"></script>
   <script>
-  function mix(q1){
-		for(i=0;i<q1.length;i++){
-        a=Math.floor(Math.random()*q1.length);
-		b=Math.floor(Math.random()*q1.length);
-		temp=q1[a];
-		q1[a]=q1[b];
-		q1[b]=temp;
-		}
-		return q1;
-  }
+    const receiveMessage = (payload) => {
+      console.log('Received Message', payload);
+      if (payload.type === 'clap') {
+        clapStart();
+      }
+    }
+
+    // Init Game Controller
+    const urlParams = new URLSearchParams(location.href);
+    const token = urlParams.get('token');
+    if (token === undefined || token == '') {
+      alert("missing token");
+    }
+    var gameController = new GameController(token);
+
+    // Set message handler
+    gameController.setMessageHandler(receiveMessage);
+
+    // Start Game
+    // gameController.startGame('cards');
+
+    function endGame() {
+      // End Game
+      gameController.endGame();
+    }
+
+    function sendClap() {
+      // To send message
+      const payload = {
+        type: 'clap'
+      }
+      gameController.sendMessage(payload);
+      clapStart();
+
+    }
+
   </script>
-  
-  
+
+
+</head>
+
+<body>
+  <div id="contallend" class="container p-1 .bg-secondary shadow mt-1"
+    style="display: none; position: relative;border: 3px solid #B68D54;">
+
+    <h1 id="namegame2" class="text-shadow text-center" style="text: bold; color:#122620; font-size:70px; display:none;">
+      <strong>משימה ממבט ראשון</strong></h1>
+
+    <p id="byebye" class="text-shadow text-center" style=" color:#122620; font-size:40px; display:none;"><br>תודה רבה
+      ששיחקתם, ומקווים להפגש בפעם הבאה!</p>
+  </div>
+
+
+  <div id="contall" class="container p-1 .bg-secondary shadow mt-1"
+    style="position: relative;border: 3px solid #B68D54;">
+
+
+    <audio id="myAudio" src="audios/claps2.mp3"></audio>
+    <img src="pics/emogi.png" width="10%" height="10%" id="clapbutton" alt="avatar" class="img-fluid"
+      style=" color:#122620; background:#B68D54;" onclick="sendClap();" />
+    <h1 class="text-shadow text-center" style="color:#122620; font-size:70px;"> </h1>
+    <h1 class="text-shadow text-center" style="color:#122620; font-size:70px;">ברוכים הבאים למשחק</h1>
+    <h1 class="text-shadow text-center" style="color:#122620; font-size:70px;"> </h1>
+
+    <h1 id="namegame" class="text-shadow text-center" style="text: bold; color:#122620; font-size:70px;"><strong>משימה
+        ממבט ראשון</strong></h1>
+    <h1 class="text-shadow text-center" style="color:#122620; font-size:70px;"> </h1>
+
+    <p id="stsrtexp" class="text-shadow text-center" style="color:#122620; font-size:20px;"><br>להתחלה יש ללחוץ על
+      הכפתור<b>↓</b></p>
+    <div>
+      <button id="startButton" class="btn btn-block  rounded-0 shadow"
+        style="border-radius: 50px; margin:right; font-size:50px; color:#122620; background:#B68D54;"
+        onclick="initGame();">:)התחלת משחק</button>
+      <div>
+        <button id="restartgamebutton" class="btn btn-block  rounded-0 shadow"
+          style="display:none; margin:right; font-size:50px; color:#122620; background:#B68D54 ;"
+          onclick="restartgame();">איתחול קלפי משחק</button>
+      </div>
+      <h1 id="whiteLine" class="text-shadow text-center"
+        style="display:none; text: bold; color:#122620; font-size:20px;"> </h1>
+
+    </div>
+    <p id="endexp2" class="text-shadow text-center" style="color:#122620; font-size:20px;"><br>לחזרה לדף הקודם<b>↓</b>
+    </p>
+    <div>
+      <button id="endButtonup" class="btn btn-block  rounded-0 shadow"
+        style="margin:right; font-size:50px; color:#122620; background:#5f4661;" onclick="finishGame();">חזרה</button>
+    </div>
+
+
+
+
+
+    <div class="cardtable" id="gameArea" style="display:none;">
+      <div class="row">
+
+
+        <div class="flip-box col-lg-4" id="fb1">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="pics/wine.jpg" alt="avatar">
+            </div>
+            <div class="flip-box-back shadow" style="border-color:red;">
+              <h1>
+                <h1>
+                  <h2>המשימה:1</h2>
+                  <p></p>
+                  <p2></p2>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="flip-box col-lg-4" id="fb2">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img class="img-fluid" src="
+pics/wine.jpg" alt="avatar">
+            </div>
+            <div class="flip-box-back shadow">
+              <h2>המשימה:2</h2>
+              <p></p>
+              <p2></p2>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="flip-box col-lg-4" id="fb3">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img class="img-fluid" src="
+pics/wine.jpg" alt="avatar"> </div>
+            <div class="flip-box-back shadow">
+              <h2>המשימה3:</h2>
+              <p></p>
+              <p2></p2>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="flip-box col-lg-4" id="fb4">
+          <div class="flip-box-inner">
+            <div class="flip-box-front ">
+              <img class="img-fluid" src="
+pics/wine.jpg" alt="avatar">
+            </div>
+            <div class="flip-box-back shadow">
+              <h2>המשימה:4</h2>
+              <p></p>
+              <p2></p2>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="flip-box col-lg-4" id="fb5">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img class="img-fluid" src="
+pics/wine.jpg" alt="avatar">
+            </div>
+            <div class="flip-box-back shadow">
+              <h2>המשימה:5</h2>
+              <p></p>
+              <p2></p2>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="flip-box col-lg-4" id="fb6">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img class="img-fluid" src="
+pics/wine.jpg" alt="avatar">
+            </div>
+            <div class="flip-box-back shadow">
+              <h2>המשימה:6</h2>
+              <p></p>
+              <p2></p2>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="flip-box col-lg-4" id="fb7">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img class="img-fluid" src="
+pics/wine.jpg" alt="avatar">
+            </div>
+            <div class="flip-box-back shadow">
+              <h2>המשימה:7</h2>
+              <p></p>
+              <p2></p2>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="flip-box col-lg-4" id="fb8">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img class="img-fluid" src="
+pics/wine.jpg" alt="avatar">
+            </div>
+            <div class="flip-box-back shadow">
+              <h2>המשימה:8</h2>
+              <p></p>
+              <p2></p2>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="flip-box col-lg-4" id="fb9">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img class="img-fluid" src="pics/wine.jpg" alt="avatar">
+            </div>
+            <div class="flip-box-back shadow">
+              <h2>המשימה:9</h2>
+              <p></p>
+              <p2></p2>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
   <script>
-  
-  
-  
-  	 q2 = [];
-
-     q1=[{"title":"לפניך משימה: ","contnet":"לעשות מטלת בית ממול המצלמה!","goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"לעצור את הנשימה למשך דקה בלי לצחוק" ,"goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"מצא/י תמונה ישנה שלך, בתור ילד/ה קטנ/ה ותציג/י אותה","goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"ספר/י 3 דברים לא ידועים על עצמך","goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"ספר/י משהו מביך מהילדות","goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"ספר/י על כישרון מיוחד שיש לך","goodluck":"בהצלחה!"},{"title":"לפניך שאלה: ","contnet":"איזה שם היית רוצה לקרוא לבן הראשון שלך?","goodluck":""},{"title":"לפניך שאלה: ","contnet":"אם היו לך 24 שעות לחיות מה היית עושה איתם?","goodluck":""},{"title":"לפניך שאלה: ","contnet":"האם אי פעם דיברת מתוך שינה?","goodluck":""},{"title":"לפניך שאלה: ","contnet":"מה הדבר הכי משוגע שעשית בחיים?","goodluck":""},{"title":"לפניך משימה: ","contnet":"הראה את התמונה האחרונה שיש לך בגלריה","goodluck":"בהצלחה!"},{"title":"לפניך שאלה: ","contnet":"לאיזה מדינה היית רוצה לטוס עכשיו?","goodluck":""},{"title":"לפניך שאלה: ","contnet":"איזה מסעדה היית רוצה ללכת עכשיו?","goodluck":""},{"title":"לפניך משימה: ","contnet":"עשה/י 3 פרצופים מצחיקים","goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"ספר/י 2 בדיחות","goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"ספר/י פדיחה שקרה לך","goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"ספר/י נס שקרה לך","goodluck":"בהצלחה!"},{"title":"לפניך שאלה: ","contnet":"האם תרצה/י להיות מפורסם באיזשהו שלב בחיים?","goodluck":""},{"title":"לפניך משימה: ","contnet":"הראה/י את צבע הגרביים שלך","goodluck":"בהצלחה!"},{"title":"לפניך שאלה: ","contnet":"מה הזכרון היקר ביותר שלך?","goodluck":""},{"title":"לפניך משימה: ","contnet":"ספר/י סיפור שגדלת עליו בילדות","goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"הראה/י את תמונת מחזור שלך מהתיכון","goodluck":"בהצלחה!"},{"title":"לפניך משימה: ","contnet":"נסה/י לחקות שפה זרה","goodluck":"בהצלחה!"}];
-	 	x = q1.length;
-
-	 function startq()
-	 {
-	// x = q1.length;
-	 
-	 //every time we start a new game
-	 
-	 if(x < 9){
-	 <!--if (q1,length < 9){
-	  //for(j=0;j<q2.length;j++){
-	  //q1[i]=q2[i];
-	  
-	 // }
-	  q1= mix(q1);
-       q2=[];
-	   x=q1.length;
-	  }
-	 	// q2 = [];
-
-	 //move all cards back from q2 into q1
-	 q2index=0;
-	 //q2index = q1.length;
-	  str = "#fb";
-	  // mix(q1);
-	 
-	 for (i=1; i< 10;i++)
-	  {
-		
-		card = q1[x-1];
-		q2[q2index] = card;
-		q2index++;
-		x--;
-		 <!--$("#fb1 p").html(card.bold().fontsize(6.5));
-	     $("#fb"+i +" h2").html(card.title.bold().fontsize(7));
-	     $("#fb"+i +" p").html(card.contnet.bold().fontsize(6));
-	     $("#fb"+i +" p2").html(card.goodluck.bold().fontsize(4));
-
-		}
-		
-	 
-	 }
-   </script>
-  <script>
-  
-  	function clapStart(){
-
-document.getElementById('myAudio').play();	}
-
- function restartgame(){
- 
- startq();
- 
- }
-
-  function endGame(){
-  contallend
-
-    $("#contall").slideUp();
-	$("#namegame2").slideDown();
-	$("#byebye").slideDown();
-  	$("#contallend").slideDown();
-	//sleep(10);
-    setTimeout(function(){ $("#namegame2").slideUp();
-	$("#byebye").slideUp();
-  	$("#contallend").slideUp();}, 10000);
-	//setInterval(myTimer, 1000);
-	//$("#namegame2").slideUp();
-	//$("#byebye").slideUp();
-  	//$("#contallend").slideUp();
-	//כמה שניות לחכות
-//game_end();
-
-  }
-  function startGame()
-  {
-  
-  startq();
-  $("#whiteLine").show();
-  $("#endexp2").slideUp();
-  $("#stsrtexp").slideUp();
-  $("#restartgamebutton").slideDown('slow');
-  $("#gameArea").slideDown('slow');
-  $("#startButton").slideUp();
-  $("#endButtonup").html("סיום משחק".bold());
-
-  
-  //game_start();
-  }
-     
+    function mix(q1) {
+      for (i = 0; i < q1.length; i++) {
+        a = Math.floor(Math.random() * q1.length);
+        b = Math.floor(Math.random() * q1.length);
+        temp = q1[a];
+        q1[a] = q1[b];
+        q1[b] = temp;
+      }
+      return q1;
+    }
   </script>
-  </body>
-  
-  
+
+
+  <script>
+
+
+
+    q2 = [];
+
+    q1 = [{ "title": "לפניך משימה: ", "contnet": "לעשות מטלת בית ממול המצלמה!", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "לעצור את הנשימה למשך דקה בלי לצחוק", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "מצא/י תמונה ישנה שלך, בתור ילד/ה קטנ/ה ותציג/י אותה", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "ספר/י 3 דברים לא ידועים על עצמך", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "ספר/י משהו מביך מהילדות", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "ספר/י על כישרון מיוחד שיש לך", "goodluck": "בהצלחה!" }, { "title": "לפניך שאלה: ", "contnet": "איזה שם היית רוצה לקרוא לבן הראשון שלך?", "goodluck": "" }, { "title": "לפניך שאלה: ", "contnet": "אם היו לך 24 שעות לחיות מה היית עושה איתם?", "goodluck": "" }, { "title": "לפניך שאלה: ", "contnet": "האם אי פעם דיברת מתוך שינה?", "goodluck": "" }, { "title": "לפניך שאלה: ", "contnet": "מה הדבר הכי משוגע שעשית בחיים?", "goodluck": "" }, { "title": "לפניך משימה: ", "contnet": "הראה את התמונה האחרונה שיש לך בגלריה", "goodluck": "בהצלחה!" }, { "title": "לפניך שאלה: ", "contnet": "לאיזה מדינה היית רוצה לטוס עכשיו?", "goodluck": "" }, { "title": "לפניך שאלה: ", "contnet": "איזה מסעדה היית רוצה ללכת עכשיו?", "goodluck": "" }, { "title": "לפניך משימה: ", "contnet": "עשה/י 3 פרצופים מצחיקים", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "ספר/י 2 בדיחות", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "ספר/י פדיחה שקרה לך", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "ספר/י נס שקרה לך", "goodluck": "בהצלחה!" }, { "title": "לפניך שאלה: ", "contnet": "האם תרצה/י להיות מפורסם באיזשהו שלב בחיים?", "goodluck": "" }, { "title": "לפניך משימה: ", "contnet": "הראה/י את צבע הגרביים שלך", "goodluck": "בהצלחה!" }, { "title": "לפניך שאלה: ", "contnet": "מה הזכרון היקר ביותר שלך?", "goodluck": "" }, { "title": "לפניך משימה: ", "contnet": "ספר/י סיפור שגדלת עליו בילדות", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "הראה/י את תמונת מחזור שלך מהתיכון", "goodluck": "בהצלחה!" }, { "title": "לפניך משימה: ", "contnet": "נסה/י לחקות שפה זרה", "goodluck": "בהצלחה!" }];
+    x = q1.length;
+
+    function startq() {
+
+
+      if (x < 9) {
+
+        q1 = mix(q1);
+        q2 = [];
+        x = q1.length;
+      }
+
+      q2index = 0;
+      str = "#fb";
+
+      for (i = 1; i < 10; i++) {
+
+        card = q1[x - 1];
+        q2[q2index] = card;
+        q2index++;
+        x--;
+        $("#fb" + i + " h2").html(card.title.bold().fontsize(7));
+        $("#fb" + i + " p").html(card.contnet.bold().fontsize(6));
+        $("#fb" + i + " p2").html(card.goodluck.bold().fontsize(4));
+
+      }
+
+
+    }
+  </script>
+  <script>
+
+    function clapStart() {
+      document.getElementById('myAudio').play();
+    }
+
+    function restartgame() {
+
+      startq();
+
+    }
+
+    function finishGame() {
+
+      $("#contall").slideUp();
+      $("#namegame2").slideDown();
+      $("#byebye").slideDown();
+      $("#contallend").slideDown();
+      setTimeout(() => endGame(), 5000);
+
+      //game_end();
+
+    }
+    function initGame() {
+      startGame();
+      startq();
+      $("#whiteLine").show();
+      $("#endexp2").slideUp();
+      $("#stsrtexp").slideUp();
+      $("#restartgamebutton").slideDown('slow');
+      $("#gameArea").slideDown('slow');
+      $("#startButton").slideUp();
+      $("#endButtonup").html("סיום משחק".bold());
+
+
+      //game_start();
+    }
+
+  </script>
+</body>
+
+
 </html>
