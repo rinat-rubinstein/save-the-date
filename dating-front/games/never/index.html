@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+
+    <title>אף פעם לא</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&family=Open+Sans&display=swap"
+    />
+
+    <style>
+      .button {
+        padding: 10px 20px;
+        font-size: 30px;
+        font-family: "Heebo", sans-serif;
+        text-align: center;
+        cursor: pointer;
+        outline: 10px;
+        color: #122620;
+        background-color: #eee0b5;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+      }
+
+      .button:hover {
+        background-color: #d7caa5;
+      }
+
+      .button:active {
+        background-color: #d7caa5;
+        box-shadow: 0 5px #122620;
+        outline: none;
+        transform: translateY(4px);
+      }
+
+      .design {
+        font-family: "Heebo", sans-serif;
+        color: (18, 38, 32);
+      }
+
+      .designButton {
+        width: 150px;
+        height: 60px;
+      }
+    </style>
+
+    <script src="https:///savethedate-91944.web.app/sdk/game.js"></script>
+    <script>
+      const receiveMessage = (payload) => {
+        console.log("Received Message", payload);
+        if (payload.event === "NEXT") {
+          console.log("Received Message", payload);
+          displayQuestion(payload.question);
+        } else if (payload.event === "START") {
+          startGame();
+        } else if (payload.event === "LOST") {
+          displayPartnerLost();
+        } else if (payload.event === "END") {
+          endGame();
+        }
+      };
+
+      // Init Game Controller
+      const urlParams = new URLSearchParams(location.href);
+      const token = urlParams.get("token");
+      if (token === undefined || token == "") {
+        alert("missing token");
+      }
+      var gameController = new GameController(token);
+
+      // Set message handler
+      gameController.setMessageHandler(receiveMessage);
+
+      function endGame() {
+        // End Game
+        gameController.endGame();
+      }
+
+      function sendMessage(payload) {
+        gameController.sendMessage(payload);
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="contaier p-5 bg-light shadow text-center">
+      <h2 id="h2_title" class="design" style="font-size: 40px;">
+        "משחק "אף פעם לא
+      </h2>
+      <br />
+      <p id="p_title" class="design" style="font-size: 22px;">
+        .מהלך המשחק: שניכם מרימים 10 אצבעות. על המסך יופיעו שאלות אקראיות, אם
+        מישהו מכם עשה את מה שמופיע בשאלה הוא מוריד אצבע. הראשון שמוריד את כל
+        האצבעות מפסיד
+      </p>
+      <br />
+      <p id="h1_title" style="display: none;"></p>
+      <div id="questionArea" style="display: none;">
+        <h3 class="design" style="font-size: 22px;">:הניקוד שלך הוא</h3>
+        <h4 id="message" class="design" style="font-size: 22px;"></h4>
+        <div
+          id="score"
+          class="design"
+          style="font-size: 24px; color: #b68d40;"
+        ></div>
+        <div class="row">
+          <div class="col-5 mx-auto">
+            <span id="q" class="design" style="font-size: 25px;"></span>
+          </div>
+        </div>
+      </div>
+
+      <button
+        id="button"
+        class="button"
+        onclick="sendMessage({event: 'START'}); startGame(); showQuestion();"
+      >
+        התחל משחק
+      </button>
+      <br />
+      <button
+        id="buttonV"
+        class="btn shadow"
+        onclick="score1();"
+        style="display: none;"
+      >
+        <img
+          src="https://cdn1.iconfinder.com/data/icons/gradak-interface/32/interface-61-512.png"
+          width="50px"
+        />
+      </button>
+      <br />
+      <br />
+      <button
+        id="buttonNext"
+        class="button"
+        onclick="showQuestion();"
+        style="display: none;"
+      >
+        שאלה הבאה
+      </button>
+      <div
+        id="endArea"
+        class="container p-1 .bg-secondary shadow mt-1"
+        style="position: relative; border: 3px solid #b68d54; display: none;"
+      >
+        <h1 class="design" style="font-size: 40px;">הגעת לסוף השאלות</h1>
+      </div>
+      <div id="LozerArea" style="display: none;">
+        <div
+          id="contall"
+          class="container p-1 .bg-secondary shadow mt-1"
+          style="position: relative; border: 3px solid #b68d54;"
+        >
+          <h1 class="design" style="font-size: 40px;">הפסדת במשחק</h1>
+          <h5 id="h4_title" class="design" style="font-size: 40px;">
+            <img
+              src="https://www.idanvip.com/images/files/5373b5c6-c324-45d6-8668-d3cd395d6952.jpg"
+              width="50px"
+            />עליך לספר פאדיחה רצינית שקרתה לך
+          </h5>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <script>
+      questions = [
+        { text: "אף פעם לא הפעלתי מכונת כביסה " },
+        { text: "אף פעם לא קפצתי בנג'י" },
+        { text: "אף פעם לא אכלתי המבורגר" },
+        { text: "אף פעם לא הייתי בחרמון " },
+        { text: "אף פעם לא הייתי בבאולינג " },
+        { text: "אף פעם לא רכבתי על סוס " },
+        { text: "אף פעם לא למדתי נהיגה" },
+        { text: "אף פעם לא קפצתי לבריכה " },
+        { text: "אף פעם לא שיקרתי בנוגע לגיל שלי" },
+        { text: "אף פעם לא שיקרתי לגבי הגובה שלי" },
+        { text: "אף פעם לא עזבתי את הבית ליותר משבוע" },
+        { text: "אף פעם לא נעקצתי על ידי דבורה " },
+        { text: "אף פעם לא התעלפתי" },
+        { text: "אף פעם לא קיבלתי 100 בשום מבחן " },
+        { text: "אף פעם לא אכלתי חציל " },
+        { text: "אף פעם לא הברזתי מדייט " },
+        { text: "אף פעם לא שמתי לק" },
+        { text: "אף פעם לא פוטרתי מהעבודה " },
+        { text: "אף פעם לא עשיתי חזרה לפני שיחת טלפון " },
+        { text: "אף פעם לא שרתי במקלחת" },
+      ];
+
+      pendingQuestions = [];
+      for (i = 0; i < questions.length; ++i) {
+        pendingQuestions.push(i);
+      }
+
+      num1 = 10;
+
+      function startGame() {
+        hideStart();
+        renderScore();
+      }
+
+      function hideStart() {
+        $("#h2_title").hide();
+        $("#p_title").hide();
+        $("#button").hide();
+        $("#buttonNext").show();
+        $("#buttonV").show();
+      }
+
+      function showQuestion() {
+        $("#buttonV").show();
+
+        const randomSelection = Math.floor(
+          Math.random() * pendingQuestions.length
+        );
+
+        const RandomIndex = pendingQuestions[randomSelection];
+
+        pendingQuestions.splice(randomSelection, 1);
+
+        const question = questions[RandomIndex];
+        if (pendingQuestions.length == 0) {
+          $("#questionArea").slideUp("slow");
+          $("#endArea").slideDown("slow");
+          $("#buttonNext").fadeOut();
+          $("#buttonV").fadeOut();
+          $("#q").fadeOut();
+          $("#h1_title").show();
+          $("#h4_title").show();
+          setTimeout(() => sendMessage({ event: "END" }), 2000);
+        }
+        sendMessage({ event: "NEXT", question: question["text"] });
+        displayQuestion(question["text"]);
+      }
+
+      function displayQuestion(question) {
+        //$("#questionArea").slideUp("slow", function () {
+        $("#questionArea").show();
+        console.log("Question", question);
+        $("#q").text(question);
+        //("#questionArea").slideDown();
+        //});
+      }
+
+      function renderScore() {
+        $("#score").text(num1);
+      }
+
+      function score1() {
+        if (num1 == 1) {
+          $("#questionArea").slideUp("slow", function () {
+            $("#LozerArea").slideDown("slow");
+          });
+          $("#buttonNext").fadeOut();
+          $("#buttonV").fadeOut();
+          $("#h1_title").show();
+          $("#h4_title").show();
+          $("#gLozer").show();
+          sendMessage({ event: "LOST" });
+		  setTimeout(() => sendMessage({ event: "END" }), 4000);
+		  endGame();
+        }
+        num1--;
+        $("#buttonV").hide();
+        renderScore();
+      }
+
+      function displayPartnerLost() {
+        $("#h1_title").show();
+        $("#h1_title").text("Congratulations, you win!");
+      }
+    </script>
+  </body>
+</html>
