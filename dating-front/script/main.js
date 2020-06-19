@@ -217,23 +217,26 @@ const startConference = (meeting, token) => {
 };
 
 function startGame(game) {
-  if (gameStarted) return;
+  if (gameStarted) endGame();
   gameStarted = true;
   window.game = game;
   const iframe = document.createElement("iframe");
   iframe.id = 'gameframe';
   iframe.src = "https://savethedate-91944.web.app/games/" + game.gameName + "/index.html?token=1";
+  iframe.style ="width: 100%; height: 90vh;"
   document.getElementById("game").appendChild(iframe);
 }
 
 function endGame() {
   gameStarted = false;
-  document.getElementById('gameframe').remove();
+  const iframe = document.getElementById('gameframe')
+  if(iframe !== null) iframe.remove();
 }
 
 function generateUrl(name) {
-  const url = "https://savethedate-91944.web.app/room/" + name;
-  alert(url);
+  const url = "Send this URL to your desired partner:\nhttps://savethedate-91944.web.app/room/" + name;
+  $("#urldiv").text(url);
+  $("#urldiv").show();
 }
 
 function createRoom() {
@@ -273,6 +276,7 @@ function getStart() {
 }
 
 function initGame(gameName) {
+  endGame();
   window.databaseController.startGame(gameName, window.meetingController.currentUserName);
 }
 

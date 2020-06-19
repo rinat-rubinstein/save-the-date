@@ -16,7 +16,7 @@
       type="module"
       src="https://savethedate-91944.web.app/script/controllers/Meeting.controller.js"
     ></script>
-    <script src="https://savethedate-91944.web.app/script/main.js"></script>
+    <script src="https://savethedate-91944.web.app/script/main.js?v=1"></script>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -34,10 +34,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
-  <h1 class="text-center">welcome</h1>
+<body dir ="RTL" class ="text-right bg-light">
 
-
+  <div id="urldiv" class="alert alert-info" style="display: none"></div>
 
   <div dir="rtl" id="login_div" class="container p-5 bg-light shadow wrapper fadeInDown">
 
@@ -80,26 +79,31 @@
 
 
 
-  <div id="display_div" style="display: none;">
+  <div class = "container-fluid" id="display_div" style="display: none;">
 
     <div class="row">
       <div class="col-lg-6 p-4">
         <div class="h-100" id="">
           <h3>בחרו משחק:</h3>
           <div class="row  " role="group" aria-label="First group">
-            <button type="button" class="btn btn-danger s rounded-0 col-md-3" onclick="initGame('cooking')">game 1</button>
-            <button type="button" class="btn btn-danger s rounded-0 col-md-3" onclick="initGame('cards')">game 2</button>
-            <button type="button" class="btn btn-danger s rounded-0 col-md-3" onclick="initGame('associations')">game 3</button>
-            <button type="button" class="btn btn-danger s rounded-0 col-md-3" onclick="initGame('never')">game 4</button>
-            <button type="button" class="btn btn-danger s rounded-0 col-md-3" onclick="initGame('spin')">game 5</button>
+            <button type="button" class="btn btn-dark btn-sm rounded-0 col-md-2 mx-auto" onclick="initGame('cooking')">בישול משותף</button>
+            <button type="button" class="btn btn-dark btn-sm rounded-0 col-md-2 mx-auto" onclick="initGame('cards')">משימה ממבט ראשון</button>
+            <button type="button" class="btn btn-dark btn-sm rounded-0 col-md-2 mx-auto" onclick="initGame('associations')">אסוציאציות</button>
+            <button type="button" class="btn btn-dark btn-sm rounded-0 col-md-2 mx-auto" onclick="initGame('never')">אף פעם לא</button>
+            <button type="button" class="btn btn-dark btn-sm rounded-0 col-md-2 mx-auto" onclick="initGame('spin')">גלגל שאלות</button>
           </div>
+
+          <div id="game"></div>
+
         </div>
       </div>
       <div class="col-lg-6 p-4">
         <div class=" p-5 h-100" id="">
           <div id="remote-media-div"></div>
           <div id="local-media"></div>
-            <button id="turn-on-audio" onclick="turnOnAudio()"><i class="fa fa-microphone"></i></button>
+            <button id="turn-on-audio" onclick="turnOnAudio()">
+              <i class="fa fa-microphone"></i>
+            </button>
             <button id="turn-off-audio" onclick="turnOffAudio()"><i class="fa fa-microphone-slash"></i></button>
         </div>
       </div>
@@ -107,7 +111,7 @@
 
   </div>
 
-    <div id="game"></div>
+    
 
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
