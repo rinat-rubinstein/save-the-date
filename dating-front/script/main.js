@@ -222,7 +222,7 @@ function startGame(game) {
   window.game = game;
   const iframe = document.createElement("iframe");
   iframe.id = 'gameframe';
-  iframe.src = "https://savethedate-91944.web.app/games/cooking/index.html?token=1";
+  iframe.src = "https://savethedate-91944.web.app/games/" + game.gameName + "/index.html?token=1";
   document.getElementById("game").appendChild(iframe);
 }
 

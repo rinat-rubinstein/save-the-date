@@ -1,0 +1,268 @@
+<html>
+<header>
+	<title>Associations Game </title>
+
+	<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&family=Open+Sans&display=swap"
+		rel="stylesheet">
+	<style>
+		.title {
+			text-align: center;
+			font-size: 50px;
+			border-radius: 40px;
+			background-color: lighter;
+			margin-top: -80px;
+
+		}
+
+		.button {
+			padding: 20px 40px;
+			background-color: #eee0b5;
+			border: none;
+			text-align: center;
+			box-shadow: 4px 4px;
+			border-radius: 10px;
+			font-family: 'Heebo', sans-serif;
+			font-size: 30px;
+			margin: -30px;
+			color: #071042
+		}
+
+		.picture {
+
+			margin-left: auto;
+			margin-right: auto;
+			width: 30%;
+			overflow: hidden;
+			height: 0%;
+			padding-bottom: 30%;
+			border-radius: 10px;
+			position: relative;
+
+		}
+
+		.theimage {
+			width: 100%;
+			height: auto;
+		}
+
+
+		html,
+		body {
+			font-family: 'Heebo', sans-serif;
+		}
+
+		body {
+			color: #071042;
+		}
+	</style>
+
+	<script src="https:///savethedate-91944.web.app/sdk/game.js"></script>
+    <script>
+      const receiveMessage = (payload) => {
+		console.log('Received Message', payload);
+		displayWord(payload);
+      }
+
+      // Init Game Controller
+      const urlParams = new URLSearchParams(location.href);
+      const token = urlParams.get('token');
+      if (token === undefined || token == ''){
+        alert("missing token");
+      }
+      var gameController = new GameController(token);
+
+      // Set message handler
+      gameController.setMessageHandler(receiveMessage);
+      
+      function endGame() {
+        // End Game
+        gameController.endGame();
+      }
+	  
+	  function sendWord(word) {
+      	gameController.sendMessage(word);
+		displayWord(word);
+	  }
+
+    </script>
+
+</header>
+
+<body>
+	<div class="container p-1 .bg-secondary shadow mt-1" style="position:relative; border:8px solid #B68D54;">
+		<div>
+			<button id="exit" class="button" style="margin-top: 10px; margin-left: 10px" onclick="finish()">סיום
+				המשחק</button>
+			<button id="backToMenu" style="display:none; margin-top: 10px; margin-left: 10px" class="button">חזרה לתפריט
+				הראשי</button>
+			<div id="areaGame" class="title">
+
+
+				<h1 style="font-size: 100px"><b>אסוציאציות </b></h1>
+				<div style="width:30%; height: 40%; margin-left: 10px; margin-top: 10px">
+					<img src="ab/frame.png" style="width:80%; height: 100%; margin-top: -50px"></img>
+				</div>
+				<div id="subtitle" class="title" style="margin-bottom: 100px">
+					...מה המילה הראשונה שעולה לכם לראש
+				</div>
+				<div>
+
+
+
+					<button id="randomWords" ; class="button"
+						style="text-align: center; width: 80%; font-size:40px; margin-bottom: 1000px "
+						onclick="startRandomGame()"><b>למשחק</b></button>
+
+				</div>
+			</div>
+
+			<div id="end" style="display:none">
+				<h3 class="title" font-size=30px style="margin-top: 30px;">:)מקווים שהזמן עבר בהנאה
+				</h3>
+				<div style="text-align: center; font-size:40px;">
+					לחצו על חזרה לתפריט הראשי על מנת לצאת מהמשחק
+				</div>
+			</div>
+
+
+		</div>
+
+		<div>
+			<img id="emo" src="ab/emojy.gif"
+				style="width: 10%; height: 20%; margin-left: 1350px; margin-top: -70px"></img>
+			<div id="randomArea" class="title" style="display:none">
+
+				<h2 id="w"></h2>
+				<div class="picture" id="p" style="display:none"><img class="theimage"></div>
+				<button id="nextWord" class="button" onclick="startRandomGame()"
+					style="font-size:35px; margin-bottom: 10px"><b>למילה הבאה</b></button>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
+	<script>
+
+
+		usedWords = []
+
+		var words = [
+			{ "word": "קורונה", "image": "ab/korona.jpg" },
+			{ "word": "לימודים", "image": "ab/limudim.jpg" },
+			{ "word": "כסף", "image": "ab/cesef.jpg" },
+			{ "word": "שבת", "image": "ab/shabat.jpg" },
+			{ "word": "חופש", "image": "ab/free.jpg" },
+			{ "word": "חגים", "image": "ab/holiday.jpg" },
+			{ "word": "משפחה", "image": "ab/family.jpg" },
+			{ "word": "צמחונות", "image": "ab/zimhonut.jpg" },
+			{ "word": "ים", "image": "ab/sea.jpg" },
+			{ "word": "חברים", "image": "ab/friend.jpg" },
+			{ "word": "אמת", "image": "ab/truth.jpg" },
+			{ "word": "מוזיקה", "image": "ab/music.jpg" },
+			{ "word": "טיולים", "image": "ab/trip.jpg" },
+			{ "word": "ספורט", "image": "ab/sport.jpg" },
+			{ "word": "שמחה", "image": "ab/happy.jpg" },
+			{ "word": "עבודה", "image": "ab/career.jpg" },
+			{ "word": "יום ראשון", "image": "ab/sunday.jpg" },
+			{ "word": "יום הולדת", "image": "ab/birth.jpg" },
+			{ "word": "חלום", "image": "ab/dream.jpg" },
+			{ "word": "דגים", "image": "ab/fish.jpg" },
+			{ "word": "אמונה", "image": "ab/emuna.jpg" },
+			{ "word": "בחירות", "image": "ab/elections.jpg" },
+			{ "word": "פוליטיקה", "image": "ab/protest.jpg" },
+			{ "word": "שינה", "image": "ab/sleep.jpg" },
+			{ "word": "חוץ לארץ", "image": "ab/map.jpg" },
+			{ "word": "מטרה", "image": "ab/goal.jpg" },
+			{ "word": "מסיבה", "image": "ab/party.jpg" },
+			{ "word": "מתמטיקה", "image": "ab/math.jpg" },
+			{ "word": "תורה", "image": "ab/tora.jpg" },
+			{ "word": "בית", "image": "ab/home.jpg" },
+			{ "word": "איכות הסביבה", "image": "ab/environment.jpg" },
+			{ "word": "אינשטיין", "image": "ab/Albert.jpg" },
+			{ "word": "תמונה", "image": "ab/photo.jpg" },
+			{ "word": "תינוק", "image": "ab/baby.jpg" },
+			{ "word": "ילדים", "image": "ab/children.jpg" },
+			{ "word": "מטוס", "image": "ab/matos.jpg" },
+			{ "word": "גינה", "image": "ab/gina.jpg" },
+			{ "word": "חושך", "image": "ab/hosheh.jpg" },
+			{ "word": "מפתח", "image": "ab/key.jpg" },
+			{ "word": "קיץ", "image": "ab/summer.jpg" },
+			{ "word": "מסיכה", "image": "ab/mask.jpg" },
+			{ "word": "חתונה", "image": "ab/wedding.jpg" },
+			{ "word": "גשם", "image": "ab/rain.jpg" },
+			{ "word": "שקט", "image": "ab/quiet.jpg" },
+			{ "word": "שלכת", "image": "ab/autumn.jpg" },
+			{ "word": "בוקר", "image": "ab/morning.jpg" },
+			{ "word": "נחל", "image": "ab/evening.jpg" },
+			{ "word": "מזגן", "image": "ab/mazgan.jpg" },
+			{ "word": "שעון", "image": "ab/clock.jpg" },
+			{ "word": "פיקניק", "image": "ab/piknik.jpg" },
+			{ "word": "זריחה", "image": "ab/piknik.jpg" }
+		]
+
+		function startRandomGame() {
+
+			var x = document.getElementById("areaGame");
+			x.style.display = "none";
+			var y = document.getElementById("randomArea");
+			y.style.display = "display";
+			$("#randomArea").show();
+			do {
+				randomWord = words[Math.floor(Math.random() * words.length)];
+
+			} while (usedWords.includes(randomWord));
+
+			if (usedWords.length < 20 && !usedWords.includes(randomWord)) {
+				sendWord(randomWord);
+			}
+			else {
+
+				finish()
+			}
+
+
+		}
+
+		function displayWord(randomWord) {
+			usedWords.push(randomWord);
+			$("#w").text(randomWord.word);
+			$(".theimage").attr("src", randomWord.image);
+			$("#p").show();
+		}
+
+		function finish() {
+
+
+			$("#w").hide('slow');
+			$("#areaGame").slideUp('slow');
+			$("#p").hide();
+			$("#nextWord").hide();
+			$("#exit").hide();
+			$("#end").slideDown('slow');
+			$("#backToMenu").show();
+			$("#emo").slideUp('slow');
+
+			setTimeout(() => endGame(), 2000)
+
+		}
+
+
+	</script>
+
+</body>
+
+
+<html />
