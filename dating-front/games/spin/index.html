@@ -1,0 +1,647 @@
+<!--
+    Winhweel.js 2-part wheel example by Douglas McKechie @ www.dougtesting.net
+    See website for tutorials and other documentation.
+
+    The MIT License (MIT)
+
+    Copyright (c) 2017 Douglas McKechie
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+-->
+<html>
+
+    <head>
+        <title>Save The Date - The Questions Wheel</title>
+        <link rel="stylesheet" href="main.css" type="text/css" />
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="TweenMax.min.js"></script>
+        <script type="text/javascript" src="Winwheel.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
+
+	<style>
+	
+	body{
+	font-family: 'Heebo',sans-serif;
+	direction: rtl;}
+		.lines{
+		font-family: 'Heebo',sans-serif;
+		font-size: 25px;
+		color:#eee0b5;
+		text-align: center
+		}.lines1{
+		font-family: 'Heebo',sans-serif;
+		font-size: 40px;
+		color:black;
+		text-align: center
+		}
+		.lines2{
+		font-family: heebo;
+		font-size: 20px;
+		color:#eee0b5;
+		text-align: center
+		}
+		.button {
+			padding: 10px 20px;
+			font-size: 30px;
+			font-family: 'Heebo',sans-serif;
+			text-align: center;
+			cursor: pointer;
+			outline: none;
+			color: #eee0b5;
+			background-color: #5f4661;
+			border: none;
+			border-radius: 15px;
+			box-shadow: 0 6px #999;
+}
+#welcomePanel{background-color:black; height:110;}
+
+#btndiv{   background-color:#5f4661; height:60;}
+#kav{   background-color:#eee0b5; height:35; font-size:25px; color:#122620; text-align:center;}
+#kav2{   background-color:black; height:20;}
+#121{ height:650;}
+#center{ height:650;}
+    </style>
+    
+    
+    <script src="https:///savethedate-91944.web.app/sdk/game.js"></script>
+    <script>
+      const receiveMessage = (payload) => {
+        console.log("Received Message", payload);
+        if (payload.event === "NEXT") {
+          console.log("Received Message", payload);
+          displayQuestion(payload.question);
+        } else if (payload.event === "START") {
+          hideTitle();
+        } else if (payload.event === "SPIN") {
+          startSpin();
+        } else if (payload.event === 'SPIN_FINISH') {
+            outerWheel.rotationAngle = payload.outerWheelAngle;
+            outerWheel.draw();                
+            innerWheel.rotationAngle = payload.innerWheelAngle;
+            innerWheel.draw(false); 
+        } else if (payload.event === "END") {
+          endGame();
+        }
+      };
+
+      // Init Game Controller
+      const urlParams = new URLSearchParams(location.href);
+      const token = urlParams.get("token");
+      if (token === undefined || token == "") {
+        alert("missing token");
+      }
+      var gameController = new GameController(token);
+
+      // Set message handler
+      gameController.setMessageHandler(receiveMessage);
+
+      function endGame() {
+        // End Game
+        gameController.endGame();
+      }
+
+      function sendMessage(payload) {
+        gameController.sendMessage(payload);
+      }
+    </script>
+
+    </head>
+    <body>
+		<div id = "welcomePanel" >
+		<br>
+		
+					<h1 id="welcome"  class="lines" class="text-center">היי! איזה כיף שבאתם לשחק בגלגל השאלות שלנו(:</h1>
+					
+					<p id="startText" class="lines2" class="text-center" >בואו לגלות קצת יותר האחד על השניה והאחת על השני</p>
+				
+				
+				
+				
+				</div>
+				<div id="center">
+			<div id="containrush" class="container text-center  bg-light p-5 shadow mt-5" >
+				
+				
+				<div id = "introductionPanel" >
+					
+					<p id="startText" class="lines1">אז זה הולך ככה, </p>
+					
+				    <p id="startText" class="lines1">בכל פעם שתסובבו את הרולטה, תגלו מי מכם צריך לענות על השאלה הבאה שתוצג בפניכם.  </p>
+				
+				    <p id="startText" class="lines1">על מנת שתוכלו לפתח שיחה נעימה נתחיל משאלות קלילות ונתקדם לשאלות עמוקות יותר.  </p>
+			
+					<p id="startText" class="lines1">הכנות והזרימה תלויה רק בכם:)</p>
+										<button id="goToIntroductions"  class="button" align="center" onClick="hideTitle(); sendMessage({event: 'START'})">בואו נתחיל</button>
+
+					
+				
+				
+				
+				</div>
+				
+				
+			</div>
+			<div id = "qpanel" class="container p-2 bg-#b68d40  shadow mt-5" style = "display: none; ">
+				<h2 class="lines1"></h2>
+				</div>
+        <div  id="rollate" align="center" style="display:none">
+            <!--h1>Winwheel.js example wheel - 2 part wheel</h1>
+            <p>
+                Here is an example of a 2 part wheel, where there are 2 rings of segments. This is achieved by creating a second
+                Winwheel object and positioning it over the top of the first wheel. One wheel acts as the "primary" and has the
+                animation applied to it, the other wheel is the "secondary" which we just update during the animation loop to have
+                the same rotation angle as the primary wheel.
+            </p>
+            <br />
+            <p>
+        		<strong>2019-01-01 Note:</strong> Currently Winwheel.js does not support animating multiple independent wheels on the same page,
+        		nor do I really recommend trying to create games made up of multiple wheels. While I do know how to add multiwheel support to Winwheel.js,
+        		experience in helping people to do this over the last year or so has shown that, depending on the options used, the framerate is so bad with
+        		as little as three wheels that any game made does not look good and is almost unusable. Best to stick to single wheel uses of Winwheel.js for now.
+        	</p>
+        	<br />
+            <p>Choose a power setting then press the Spin button. You will be alerted to the prize won when the spinning stops.</p>
+            <br /-->
+			<div id=121">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <br.
+                      <br>  
+                          <br> 
+                            <!--img id="spin_button"  src="spin_on.png" alt="Spin" align="center" onClick="startSpin();" style="display:none;" /-->
+                      
+                  
+                    <td width="438" height="582" class="the_wheel" align="center" valign="center">
+                        <canvas id="canvas" width="434" height="434">
+                            <p style="color: white" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
+                        </canvas>
+                    </td>
+                </tr>
+            </table>
+			</div>
+			 		<!--img id="spin_button"  src="spin_on.png" alt="Spin" align="center" onClick="startSpin();" style="display:none;" /-->
+
+        </div>
+		</div>
+		<div  id="btndiv" align="center" ">
+				<!--td width="438" height="582" class="the_wheel" align="center" valign="center">
+                        <canvas id="canvas" width="434" height="434">
+                            <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
+                        </canvas>
+                </td-->
+				 <img id="spin_button"  src="spin_on.png" alt="Spin" align="center" onClick="startSpin();" style="display:none;"  />
+		</div>	
+<div id="kav">מכל מקום. לכל זוג. בכל זמן.</div>
+        <div id="kav2"></div>		
+        <script>
+		var index=0;
+	women1=[ {"text":"אילו היית זוכה במיליון שקלים, איך היית מבזבזת אותם"}, 
+{"text":"מהי המילה שהכי מאפיינת אותך"},
+{"text":"באיזו מדינה בעולם היית רוצה לבקר ומדוע"},
+{"text":" איזה מאכל לא תסכימי לטעום לעולם"},
+{"text":"מה את מעדיפה-המזרח הרחוק או ארצות הברית"},
+{"text":"מה תעדיפי-לתת הוראות או לקבל הוראות"},
+{"text":"שכירה או עצמאית"},
+{"text":"ספר טוב שקראת לאחרונה"},
+{"text":"בדיחה ששמעת לאחרונה"},
+{"text":"תכנית ילדים אהובה"}
+];
+
+women2=[ {"text":"מהו הדבר שבטוח יעלה חיוך על פנייך"}, 
+{"text":"אילו היית צריכה לבחור לעצמך שם אחר, באיזה שם היית בוחר"},
+{"text":"אם החיים היו ספר, מה היה שם הספר הזה"},
+{"text":"אילו היית צריכה לבחור את הצבע שהכי מתאר אותך, איזה צבע זה היה "},
+{"text":"אילו היית יכולה לשנות משהו אחד בהופעה שלך, מה היית משנה"},
+{"text":"מה המתנה הכי משמחת שקיבלת בחייך"},
+{"text":"מי האדם הראשון שתתקשרי אליו בשעת המשבר"},
+{"text":"מהו הדבר שלא תהיי מוכנה לעשות לעולם"},
+{"text":"איזה תכונה שיש לאחרים ואת חושבת שאין לך, היית רוצה לאמץ"},
+{"text":"מהו הדבר שעוד לא ניסית ואת מתה לנסות"}
+];
+
+women3=[ {"text":"האם יש משהו שאת חולמת לעשות כבר זמן רב? למה לא עשית אותו"}, 
+{"text":"מהו ההישג הכי גדול בחייך"},
+{"text":"מה את הכי מעריכה בחברות"},
+{"text":"מהו הזיכרון היקר ביותר שלך"},
+{"text":"אם היית צריכה להעניק פרס על מעשה טוב במיוחד, למי היית נותנת אותו"},
+{"text":"אילו היית יכולה לראות יום אחד מהעתיד שלך, באיזה יום היית בוחרת"},
+{"text":"מי המורה הכי טוב שהיה לך? מה הופך אותו לכזה"},
+{"text":"אילו תפקידים ממלאים בחייך אהבה וחיבה"},
+{"text":"השלימי את המשפט: הלוואי שהיה לי עם מי לחלוק את"+"..."},
+{"text":"לו ידעת שתהיי חברה קרובה של בן שיחתך, איזה פרט חשוב הוא היה צריך לדעת"}
+];
+
+men1=[ {"text":"טיול שעשית לאחרונה"}, 
+{"text":"בשעת קושי, אתה מוותר או נלחם"},
+{"text":"מה תעדיף, הזמנות מהאינטרנט או קניון"},
+{"text":"עבודה מהבית או לא"},
+{"text":"הדבר הכי מצחיק שהתחפשת אליו"},
+{"text":"איש של יום או איש של לילה"},
+{"text":"כמה שעות אתן ישן ביום"},
+{"text":"שיר שאתה אוהב"},
+{"text":"החג האהוב עלייך הוא.."},
+{"text":"מתעניין בפוליטיקה"}
+];
+
+men2=[ {"text":"מהם הדברים שגורמים לך לבכות"}, 
+{"text":"אילו היית צריך לקבל את עצמך לעבודה, לאיזו עבודה לא היית מקבל את עצמך"},
+{"text":"אילו היית ראש הממשלה, מה ההחלטה הראשונה שהיית מקבל"},
+{"text":"לו היית יכול לשנות דבר אחד בחייך, מה היית משנה"},
+{"text":"מהו הדבר שאתה הכי מפחד לעשות"},
+{"text":"לדעתך-לחסוך לפנסיה או ליהנות מהכסף"},
+{"text":"אם יכולת להזמין כל אדם, את מי היית מזמין לארוחת ערב"},
+{"text":"האם תרצה להיות מפורסם? באיזה אופן"},
+{"text":"מה נחשב בעיניך כיום מושלם"},
+{"text":"מתי שרת לעצמך בפעם האחרונה? ולאדם אחר"}
+];
+
+men3=[ {"text":"מה הזיכרון האיום ביותר שלך"}, 
+{"text":"מהי חברות בשבילך"},
+{"text":"כמה קרובה וחמה המשפחה שלך? האם אתה מרגיש שהילדות שלך הייתה מאושרת יותר משל רוב האנשים"},
+{"text":"חלוק עם בת שיחתך רגע מביך בחייך"},
+{"text":"מתי בכית בפעם האחרונה בפני מישהו אחר? ולבדך"},
+{"text":"ספר לבת שיחתך משהו שכבר מוצא חן בעיניך אצלם"},
+{"text":"הבית שלך, כולל כל מה שיש לך, עולה באש. אחרי שהצלת את אהוביך וחיות המחמד שלך, יש לך זמן להוציא רק עוד דבר אחד. מה הוא יהיה"},
+{"text":"מכל האנשים במשפחתך, פטירתו של מי יהיה הכי קשה עבורך? למה"+"?"},
+{"text":"ב-4 דקות הקרובות, ספר לבת שיחתך את סיפור חייך, מפורט ככל האפשר"},
+{"text":"חלוק בעיה אישית ושאל את בת שיחתך איך היא הייתה מתמודדת איתה"}
+];
+
+menAndWomen1=[ {"text":"מה החפץ שהכי חשוב לכם"},
+{"text":"מה הדבר שאתם הייתם הכי רוצים לקבל"},
+{"text":"מהי העונה המועדפת עליכם"},
+{"text":"תעסוקה מועדפת לשעות הפנאי"},
+{"text":"איזה פריט לא תשכחו כשאתם נוסעים לחופשה"},
+{"text":"אלו 3 פריטים תקחו אתכם לאי בודד"},
+{"text":"מאכל רחוב מועדף"},
+{"text":"סרט/ סדרה אהוב/ה"},
+{"text":"מה הדבר הראשון שאתם עושים כשאתם קמים בבוקר"}
+];
+
+menAndWomen2=[ {"text":"איך אתם מדמיינים את החתונה של עצמכם"}, 
+{"text":"האם אתם אי פעם עושים חזרה לפני שיחת טלפון? למה"},
+{"text":"לו יכולתם לחיות עד גיל 90 ולשמור על שכל או על גוף של בן 30 במשך 60 השנים האחרונות של חייכם, באיזה מהם הייתם בוחרים"},
+{"text":"ציינו 3 דברים המשותפים לכם"},
+{"text":"על מה בחייכם אאתםהכי אסירי תודה"},
+{"text":"לו יכולתם לשנות משהו אחד בדרך שבה גידלו אתכם, מה הייתם משנים"},
+{"text":"לו יכולתם להתעורר מחר עם תכונה או יכולת חדשה, מה היא הייתה"},
+{"text":"עקרון שלא תוותרו עליו לעולם"},
+{"text":"על איזו הוצאה כלכלית הייתם מוותרים דבר ראשון בזמנים של צמצום כלכלי"},
+{"text":"מה דעתכם לגבי החשיפה הקיימת היום ברשתות החברתיות"}
+];
+
+menAndWomen3=[ {"text":"לו ידעתם שבעוד שנה תמותו בפתאומיות חלילה, האם הייתם משנים משהו בדרך שבה אתם חיים היום? למה"}, 
+{"text":"אם הייתם יכולים להתחלף ולקבל חיים של מישהו למשך 24 שעות, עם מי היתם מתחלפים"},
+{"text":"לסירוגין, ספרו אחד לשנייה 5 תכונות שאתם מחשיבים כתכונה חיובית אצל השני/ה"},
+{"text":"שתפו, איך אתם מרגישים לגבי הקשר שלכם עם אמכם"},
+{"text":"ספרו אחד לשנייה מה מוצא חן בעיניכם אצלם: הפעם היו כנים מאוד, וציינו דברים שאולי לא הייתם אומרים למישהו שכרגע פגשתם"},
+{"text":"מה, אם בכלל, נחשב בעיניכם רציני מכדי שיצחקו עליו"},
+{"text":"לו הייתם מתים הערב חלילה בלי הזדמנות לתקשר עם אף אחד, מה הדבר שהייתם הכי מתחרטים שלא אמרתם לאדם מסוים? למה עדיין לא אמרתם להם את זה"},
+{"text":"איך אתם רואים את עצמכם בעוד 40 שנה"},
+{"text":"על אילו ערכים אתם רוצים לחנך את ילדכם"},
+{"text":"מה הדבר הכי חשוב שהייתם רוצים להשאיר לקרוביך אחרי מותך"}
+];
+		prefixes=[{"text":"היי"+" "},{"text":"שאלה ל"},{"text":"אז"+" "},{"text":""}];
+ </script>
+
+ 
+
+        <script >
+		
+            // Need to create the SECONDARY wheel first because on construct the variable which keeps track of the wheel to animate will
+            // be set to the last created wheel, and we want the outer one the primary with the animation etc.
+            let innerWheel = new Winwheel({
+                'numSegments' : 6,
+                'outerRadius' : 110,        // Set the outer radius to make the wheel smaller than the outer wheel.
+                'segments': [
+                    {'fillStyle' : '#faf5e7', 'text' : 'את', 'textFontFamily' : 'tahoma', 'textFontSize' : 25},
+                    {'fillStyle' : '#faf5e7', 'text' : 'אתה','textFontFamily' : 'tahoma', 'textFontSize' : 25},
+                    {'fillStyle' : '#faf5e7', 'text' : 'שניכם','textFontFamily' : 'tahoma', 'textFontSize' : 25},
+                    {'fillStyle' : '#faf5e7', 'text' : 'את','textFontFamily' :  'tahoma', 'textFontSize' : 25},
+                    {'fillStyle' : '#faf5e7', 'text' : 'אתה','textFontFamily' : 'tahoma', 'textFontSize' : 25},
+                    {'fillStyle' : '#faf5e7', 'text' : 'שניכם','textFontFamily' : 'tahoma', 'textFontSize' : 25}
+                ]
+            });
+
+            // Define the outer wheel, we will treat this as the PRIMARY which means it clears the canvas when drawing and also
+            // gets the animaton applied to it. We must callback a function during the animation to move and draw the inner wheel
+            // so the 2 wheels appear as one thing on the canvas.
+            let outerWheel = new Winwheel({
+                'numSegments': 30,
+                'textMargin' : 0,
+                'outerRadius' : 210,
+                'innerRadius' : 110,    // Set inner radius to the size of the inner wheel since the inner part of the wheel
+                'segments': [           //   is being drawn by the inner wheel we don't need to draw there.
+                    {'fillStyle' : '#5f4661', 'text' : '?'},
+                    {'fillStyle' : '#eee0b5', 'text' : '?'},
+                    {'fillStyle' : '#d6ab60', 'text' : '?'},
+                    {'fillStyle' : '#5f4661', 'text' : '?'},
+                    {'fillStyle' : '#eee0b5', 'text' : '?'},
+                    {'fillStyle' : '#d6ab60', 'text' : '?'},
+					{'fillStyle' : '#5f4661', 'text' : '?'},
+                    {'fillStyle' : '#eee0b5', 'text' : '?'},
+                    {'fillStyle' : '#d6ab60', 'text' : '?'},
+                    {'fillStyle' : '#5f4661', 'text' : '?'},
+                    {'fillStyle' : '#eee0b5', 'text' : '?'},
+                    {'fillStyle' : '#d6ab60', 'text' : '?'},
+                    {'fillStyle' : '#5f4661', 'text' : '?'},
+                    {'fillStyle' : '#eee0b5','text' : '?'},
+                    {'fillStyle' : '#d6ab60', 'text' : '?'},
+                    {'fillStyle' : '#5f4661', 'text' : '?'},
+                    {'fillStyle' : '#eee0b5', 'text' : '?'},
+                    {'fillStyle' : '#d6ab60', 'text' : '?'},
+                    {'fillStyle' : '#5f4661', 'text' : '?'},
+                    {'fillStyle' : '#eee0b5', 'text' : '?'},
+                    {'fillStyle' : '#d6ab60', 'text' : '?'},
+                    {'fillStyle' : '#5f4661', 'text' : '?'},
+                    {'fillStyle' : '#eee0b5', 'text' : '?'},
+                    {'fillStyle' : '#d6ab60', 'text' : '?'},
+                    {'fillStyle' : '#5f4661', 'text' : '?'},
+                    {'fillStyle' : '#eee0b5', 'text' : '?'},
+                    {'fillStyle' : '#d6ab60', 'text' : '?'},
+					{'fillStyle' : '#5f4661', 'text' : '?'},
+					{'fillStyle' : '#eee0b5', 'text' : '?'},
+					{'fillStyle' : '#d6ab60', 'text' : '?'}
+              
+                ],
+				
+                'animation':
+                {
+                  'type': 'spinToStop',                     // Define animation more or less as normal, except for the callbackAfter().
+                  'duration': 5,
+                  'spins': 5,
+                  'easing': 'Power3.easeOut',
+                  'callbackAfter' : drawInnerWheel,     // Call back after each frame of the animation a function we can draw the inner wheel from.
+                  'callbackFinished': alertPrize
+                }
+            });
+
+			outerWheel.segments[1].textFillStyle='#faf5e7';
+			outerWheel.segments[2].textFillStyle='#faf5e7';
+			outerWheel.segments[3].textFillStyle='#faf5e7';
+			outerWheel.segments[4].textFillStyle='#faf5e7';
+			outerWheel.segments[5].textFillStyle='#faf5e7';
+			outerWheel.segments[6].textFillStyle='#faf5e7';
+			outerWheel.segments[7].textFillStyle='#faf5e7';
+			outerWheel.segments[8].textFillStyle='#faf5e7';
+			outerWheel.segments[9].textFillStyle='#faf5e7';
+			outerWheel.segments[10].textFillStyle='#faf5e7';
+			outerWheel.segments[11].textFillStyle='#faf5e7';
+			outerWheel.segments[12].textFillStyle='#faf5e7';
+			outerWheel.segments[13].textFillStyle='#faf5e7';
+			outerWheel.segments[14].textFillStyle='#faf5e7';
+			outerWheel.segments[15].textFillStyle='#faf5e7';
+			outerWheel.segments[16].textFillStyle='#faf5e7';
+			outerWheel.segments[17].textFillStyle='#faf5e7';
+			outerWheel.segments[18].textFillStyle='#faf5e7';
+			outerWheel.segments[19].textFillStyle='#faf5e7';
+			outerWheel.segments[20].textFillStyle='#faf5e7';
+			outerWheel.segments[21].textFillStyle='#faf5e7';
+			outerWheel.segments[22].textFillStyle='#faf5e7';
+			outerWheel.segments[23].textFillStyle='#faf5e7';
+			outerWheel.segments[24].textFillStyle='#faf5e7';
+			outerWheel.segments[25].textFillStyle='#faf5e7';
+			outerWheel.segments[26].textFillStyle='#faf5e7';
+			outerWheel.segments[27].textFillStyle='#faf5e7';
+			outerWheel.segments[28].textFillStyle='#faf5e7';
+			outerWheel.segments[29].textFillStyle='#faf5e7';
+			outerWheel.segments[30].textFillStyle='#faf5e7';
+			innerWheel.segments[1].textFillStyle='#5f4661';
+			innerWheel.segments[2].textFillStyle='#5f4661';
+			innerWheel.segments[3].textFillStyle='#5f4661';
+			innerWheel.segments[4].textFillStyle='#5f4661';
+			innerWheel.segments[5].textFillStyle='#5f4661';
+			innerWheel.segments[6].textFillStyle='#5f4661';
+			
+		
+			
+            // Call draw on the outerWheel then the inner wheel to ensure that both are rendered on the canvas.
+            outerWheel.draw();
+            innerWheel.draw(false);   // Pass false to stop it clearing the canvas and wiping the outer wheel.
+
+            // This function is called after the outer wheel has drawn during the animation.
+            function drawInnerWheel()
+            {
+                // Update the rotationAngle of the innnerWheel to match that of the outer wheel - this is a big part of what
+                // links them to appear as one 2-part wheel. Call the draw function passing false so the outer wheel is not wiped.
+                innerWheel.rotationAngle = outerWheel.rotationAngle;
+                innerWheel.draw(false);
+            }
+
+            // Called when the animation has finished.
+            function alertPrize()
+            {
+				sendMessage({event: 'SPIN_FINISH', innerWheelAngle: innerWheel.rotationAngle, outerWheelAngle: outerWheel.rotationAngle})
+                // The the indicated segments from the 2 wheels.
+                let winningInnerSegment = innerWheel.getIndicatedSegment();
+                let winningOuterSegment = outerWheel.getIndicatedSegment();
+				const pre=prefixes[Math.floor(Math.random()*prefixes.length)];
+
+                // Alert the combination of prizes won.
+				if(winningInnerSegment.text=="את")
+				{
+					if(index<=10)
+					{
+					const q=women1[Math.floor(Math.random()*women1.length)];
+					finalText =pre.text+"את" + ', '+q.text+"?";
+
+					}
+					if(index>10&&index<=20)
+					{
+					const q=women2[Math.floor(Math.random()*women2.length)];
+					finalText =pre.text+"את" + ', '+q.text+"?" ;
+
+					}
+					if(index>20&&index<=30)
+					{
+					const q=women3[Math.floor(Math.random()*women3.length)];
+					finalText =pre.text+"את" + ', '+q.text+"?";
+
+					}
+				}
+				if(winningInnerSegment.text=="אתה")
+				{
+					if(index<=10)
+					{
+					const q=men1[Math.floor(Math.random()*men1.length)];
+					finalText =pre.text+"אתה" + ', '+q.text+"?";
+					}
+					if(index>10&&index<=20)
+					{
+					const q=men2[Math.floor(Math.random()*men2.length)];
+					finalText =pre.text+"אתה" + ', '+q.text+"?";
+					}
+					if(index>20&&index<=30)
+					{
+					const q=men3[Math.floor(Math.random()*men3.length)];
+					finalText =pre.text+"אתה" + ', '+q.text+"?";
+					}
+				
+				}if(winningInnerSegment.text=="שניכם")
+				{
+					if(index<=10)
+					{
+					const q=menAndWomen1[Math.floor(Math.random()*menAndWomen1.length)];
+					finalText =pre.text+"שניכם" + ', '+q.text+"?";
+					}
+					if(index>10&&index<=20)
+					{
+					const q=menAndWomen2[Math.floor(Math.random()*menAndWomen2.length)];
+					finalText =pre.text+"שניכם" + ', '+q.text+"?";
+					}
+					if(index>20&&index<=30)
+					{
+					const q=menAndWomen3[Math.floor(Math.random()*menAndWomen3.length)];
+					finalText =pre.text+"שניכם" + ', '+q.text+"?";
+					}
+				
+				}
+                
+                finalText.class="lines1";
+                sendMessage({event: 'NEXT', question: finalText})
+                displayQuestion(finalText)
+				
+
+				
+				
+
+                // Set things so power and spin button can be clicked again.
+                wheelSpinning = false;
+
+                // Remove all colours from the power level indicators.
+               // document.getElementById('pw1').className = "";
+               // document.getElementById('pw2').className = "";
+               // document.getElementById('pw3').className = "";
+				//$("q1").text("היי "+ winningInnerSegment.text + ', '+q.text);
+				//("q1").show();
+
+		
+            }
+
+            function displayQuestion(finalText) {
+				$("#qpanel h2").text(finalText);
+				//$("#containrush").fadeIn();
+				$("#qpanel").fadeIn();
+				$("#introductionPanel").slideUp();
+				//$("#welcomePanel").slideUp();
+            }
+
+
+            // ================================================================================================================
+            // FUNCTIONS FOR power controls below (All this is not necessary to actually create and spin a wheel)....
+            // Vars used by the code in this page to do power controls.
+            let wheelPower    = 0;
+            let wheelSpinning = false;
+
+            // -------------------------------------------------------
+            // Function to handle the onClick on the power buttons.
+            // -------------------------------------------------------
+           /* function powerSelected(powerLevel)
+            {
+                // Ensure that power can't be changed while wheel is spinning.
+                if (wheelSpinning == false) {
+                    // Reset all to grey incase this is not the first time the user has selected the power.
+                    document.getElementById('pw1').className = "";
+                    document.getElementById('pw2').className = "";
+                    document.getElementById('pw3').className = "";
+
+                    // Now light up all cells below-and-including the one selected by changing the class.
+                    if (powerLevel >= 1) {
+                        document.getElementById('pw1').className = "pw1";
+                    }
+
+                    if (powerLevel >= 2) {
+                        document.getElementById('pw2').className = "pw2";
+                    }
+
+                    if (powerLevel >= 3) {
+                        document.getElementById('pw3').className = "pw3";
+                    }
+
+                    // Set wheelPower var used when spin button is clicked.
+                    wheelPower = powerLevel;
+
+                    // Light up the spin button by changing it's source image and adding a clickable class to it.
+                    document.getElementById('spin_button').src = "spin_on.png";
+                    document.getElementById('spin_button').className = "clickable";
+                }
+            }*/
+			function hideTitle()
+			{
+				//$("#welcomePanel").slideUp();
+				$("#containrush").slideUp();
+				//$("#introductionPanel").slideDown();
+				$("#spin_button").fadeIn();
+				$("#rollate").slideDown();
+			}
+			
+            // -------------------------------------------------------
+            // Click handler for spin button.
+            // -------------------------------------------------------
+            function startSpin()
+            {
+			wheelpower=2;
+			index=index+1;
+			console.log(index);
+                // Ensure that spinning can't be clicked again while already running.
+                if (wheelSpinning == false) {
+                    // Reset things with inner and outer wheel so spinning will work as expected. Without the reset the
+                    // wheel will probably just move a small amount since the rotationAngle would be close to the targetAngle
+                    // figured out by the animation.
+                    outerWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
+                    outerWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
+                    outerWheel.draw();                // Call draw to render changes to the wheel.
+                    innerWheel.rotationAngle = 0;
+                    innerWheel.draw(false);
+
+                    // Based on the power level selected adjust the number of spins for the wheel, the more times is has
+                    // to rotate with the duration of the animation the quicker the wheel spins.
+                    if (wheelPower == 1) {
+                        outerWheel.animation.spins = 3;     // Number of spins and/or duration can be altered to make the wheel
+                        outerWheel.animation.duration = 7;  // appear to spin faster or slower.
+                    } else if (wheelPower == 2) {
+                        outerWheel.animation.spins = 8;
+                        outerWheel.animation.duration = 7;
+                    } else if (wheelPower == 3) {
+                        outerWheel.animation.spins = 15;
+                    }
+
+                    // Disable the spin button so can't click again while wheel is spinning.
+                    document.getElementById('spin_button').src       = "spin_on.png";
+                    document.getElementById('spin_button').className = "";
+
+                    // Begin the spin animation by calling startAnimation on the wheel object.
+                    outerWheel.startAnimation();
+
+                    // Set to true so that power can't be changed and spin button re-enabled during
+                    // the current animation. The user will have to reset before spinning again.
+                    wheelSpinning = true;
+                }
+            }
+        </script>
+	
+			<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+    </body>
+   
+</html>
